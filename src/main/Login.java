@@ -31,7 +31,6 @@ public class Login extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -45,6 +44,7 @@ public class Login extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -56,12 +56,8 @@ public class Login extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
-        jLabel4.setText("DripHorizon");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, -1, -1));
-
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-120, 170, 420, 350));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-90, 130, 420, 350));
 
         jPanel6.setBackground(new java.awt.Color(204, 153, 255));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -124,6 +120,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 380, -1, -1));
+
+        jLabel4.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
+        jLabel4.setText("DripHorizon");
+        jPanel6.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, -1, -1));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, -20, 340, 530));
 

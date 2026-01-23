@@ -35,8 +35,10 @@ public class LandingPage extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,14 +83,22 @@ public class LandingPage extends javax.swing.JFrame {
         jLabel5.setText("Register");
         jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 380, 70, 40));
+        jPanel2.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 380, 70, 40));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 590, 350));
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled design (14).png"))); // NOI18N
+        jLabel7.setText("jLabel7");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-280, -120, 970, 1350));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled design (13).png"))); // NOI18N
+        jLabel6.setText("jLabel6");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(-670, -570, 1050, -1));
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
         jLabel4.setText("DripHorizon");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, -1, -1));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 590, 350));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled design (11).png"))); // NOI18N
         jLabel3.setText("jLabel3");
@@ -167,6 +177,8 @@ public class LandingPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
