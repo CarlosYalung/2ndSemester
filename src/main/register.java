@@ -33,43 +33,22 @@ public class register extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-<<<<<<< HEAD
-        jLabel6 = new javax.swing.JLabel();
-        name = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
+        user = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         pass = new javax.swing.JPasswordField();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        last = new javax.swing.JTextField();
-        jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
-        jLabel10 = new javax.swing.JLabel();
-        user = new javax.swing.JTextField();
-=======
-        love = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
-        love2 = new javax.swing.JLabel();
-        password = new javax.swing.JPasswordField();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        jLabel8 = new javax.swing.JLabel();
-        love3 = new javax.swing.JLabel();
-        lastname = new javax.swing.JTextField();
-        jSeparator3 = new javax.swing.JSeparator();
-        jSeparator4 = new javax.swing.JSeparator();
-        love4 = new javax.swing.JLabel();
-        username = new javax.swing.JTextField();
->>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
-        jLabel3 = new javax.swing.JLabel();
+        last = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -80,15 +59,15 @@ public class register extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-130, 160, 350, 350));
+
         jLabel4.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
         jLabel4.setText("DripHorizon");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, -1));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-110, 160, 420, 350));
-
-        jPanel6.setBackground(new java.awt.Color(204, 153, 255));
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel5.setBackground(new java.awt.Color(153, 51, 255));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 255));
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,10 +83,10 @@ public class register extends javax.swing.JFrame {
         });
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Register");
+        jLabel1.setText("Login");
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel6.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 70, 30));
+        jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 70, 40));
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 255));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -120,95 +99,49 @@ public class register extends javax.swing.JFrame {
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setText("Cancel");
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 20));
+        jLabel5.setText("Register");
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel6.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 70, 30));
+        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, 70, 40));
 
-        love.setText("Password:");
-        jPanel6.add(love, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
+        user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userActionPerformed(evt);
+            }
+        });
+        jPanel5.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 100, -1));
+
+        jLabel3.setText("FirstName");
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, 20));
+        jPanel5.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 100, -1));
+
+        jLabel6.setText("Username");
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, -1, -1));
+
+        jLabel7.setText("Click here to Create New Account");
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, -1, 20));
+
+        jLabel8.setText("Password:");
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, -1, -1));
+
+        jLabel9.setText("LastName");
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
         name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameActionPerformed(evt);
             }
         });
-        jPanel6.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 130, 30));
+        jPanel5.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 100, -1));
 
-        love2.setText("LastName:");
-        jPanel6.add(love2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
-
-<<<<<<< HEAD
-        pass.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passActionPerformed(evt);
-            }
-        });
-        jPanel6.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, 30));
-=======
-        password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
-            }
-        });
-        jPanel6.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, 30));
->>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
-        jPanel6.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 190, 10));
-        jPanel6.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 190, 10));
-
-        jLabel8.setText("Click here to Login");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
-            }
-        });
-        jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 370, -1, -1));
-
-        love3.setText("Username:");
-        jPanel6.add(love3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
-
-<<<<<<< HEAD
         last.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastActionPerformed(evt);
             }
         });
-        jPanel6.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, 30));
-=======
-        lastname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lastnameActionPerformed(evt);
-            }
-        });
-        jPanel6.add(lastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, 30));
->>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
-        jPanel6.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 222, 190, 10));
-        jPanel6.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 190, 10));
+        jPanel5.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 100, -1));
 
-        love4.setText("FirstName:");
-        jPanel6.add(love4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
-
-<<<<<<< HEAD
-        user.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userActionPerformed(evt);
-            }
-        });
-        jPanel6.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 130, 30));
-=======
-        username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
-            }
-        });
-        jPanel6.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 130, 30));
->>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
-
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, -20, 340, 530));
-
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled design (11).png"))); // NOI18N
-        jLabel3.setText("jLabel3");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-510, -780, 1840, 2260));
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 340, 490));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 510));
 
@@ -219,26 +152,10 @@ public class register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-<<<<<<< HEAD
-      config con = new config();
-
-String sql = "INSERT INTO Register (name, lastname, username, password, status) VALUES (?, ?, ?, ?, ?)";
-
-con.addRecord(
-    sql,
-    name.getText(),
-    last.getText(),
-    user.getText(),
-    pass.getText(),
-    "User" 
-);
-
-=======
-       config con = new config();
-       String sql = "INSERT INTO Register (firstname, lastname, username,password) VALUES (?, ?, ?, ?)"; 
-       
-       con.addRecord(sql, name.getText(), lastname.getText(),username.getText(),password.getText());
->>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
+          Login ifm = new Login();
+       ifm.setVisible(true);
+       this.dispose();
+      
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
@@ -250,50 +167,29 @@ con.addRecord(
     }//GEN-LAST:event_jPanel3MouseExited
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-         LandingPage ifm = new LandingPage();
-       ifm.setVisible(true);
-       this.dispose();
+ 
+config con = new config();
+String sql = "INSERT INTO Register (name, lastname, username, password, status) VALUES (?, ?, ?, ?, ?)";
+
+con.addRecord( sql,  name.getText(), last.getText(), user.getText(), pass.getText(),  "User" );                          
+  JOptionPane.showMessageDialog(null, "Record Added");
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
         jPanel4.setBackground(new Color(102,102,255));
     }//GEN-LAST:event_jPanel4MouseEntered
 
-    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameActionPerformed
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-            Login ifm = new Login();
-       ifm.setVisible(true);
-       this.dispose();
-    }//GEN-LAST:event_jLabel8MouseClicked
-
-<<<<<<< HEAD
-    private void lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lastActionPerformed
-
     private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userActionPerformed
 
-    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_passActionPerformed
-=======
-    private void lastnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastnameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lastnameActionPerformed
+    }//GEN-LAST:event_nameActionPerformed
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+    private void lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
-
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
->>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
+    }//GEN-LAST:event_lastActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,30 +235,18 @@ con.addRecord(
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-<<<<<<< HEAD
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField last;
     private javax.swing.JTextField name;
     private javax.swing.JPasswordField pass;
     private javax.swing.JTextField user;
-=======
-    private javax.swing.JTextField lastname;
-    private javax.swing.JLabel love;
-    private javax.swing.JLabel love2;
-    private javax.swing.JLabel love3;
-    private javax.swing.JLabel love4;
-    private javax.swing.JTextField name;
-    private javax.swing.JPasswordField password;
-    private javax.swing.JTextField username;
->>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
     // End of variables declaration//GEN-END:variables
 }
