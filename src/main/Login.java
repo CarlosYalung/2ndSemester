@@ -6,8 +6,11 @@
 package main;
 
 import Config.config;
+<<<<<<< HEAD
 import main.UserDashboard;
 import dashboard.adminDashboard;
+=======
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -42,9 +45,15 @@ public class Login extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+<<<<<<< HEAD
         user = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         password = new javax.swing.JPasswordField();
+=======
+        un = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        ps = new javax.swing.JPasswordField();
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
@@ -104,6 +113,7 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setText("Password:");
         jPanel6.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, -1, -1));
 
+<<<<<<< HEAD
         user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userActionPerformed(evt);
@@ -120,6 +130,18 @@ public class Login extends javax.swing.JFrame {
             }
         });
         jPanel6.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, 30));
+=======
+        un.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unActionPerformed(evt);
+            }
+        });
+        jPanel6.add(un, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 130, 30));
+
+        jLabel7.setText("Username:");
+        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
+        jPanel6.add(ps, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, 30));
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
         jPanel6.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 290, 190, 10));
         jPanel6.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 222, 190, 10));
 
@@ -150,6 +172,7 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+<<<<<<< HEAD
        config con = new config();
 
 // Only check for username and password
@@ -173,6 +196,13 @@ if (accountType == null) {
         this.dispose();
     }
 }       
+=======
+     
+       config con = new config(); 
+
+String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+                              
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
@@ -193,9 +223,15 @@ if (accountType == null) {
         jPanel4.setBackground(new Color(102,102,255));
     }//GEN-LAST:event_jPanel4MouseEntered
 
+<<<<<<< HEAD
     private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_userActionPerformed
+=======
+    private void unActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_unActionPerformed
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         register ifm = new register();
@@ -259,7 +295,12 @@ if (accountType == null) {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+<<<<<<< HEAD
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField user;
+=======
+    private javax.swing.JPasswordField ps;
+    private javax.swing.JTextField un;
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
     // End of variables declaration//GEN-END:variables
 }

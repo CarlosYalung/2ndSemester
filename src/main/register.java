@@ -40,6 +40,7 @@ public class register extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
+<<<<<<< HEAD
         jLabel6 = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
@@ -53,6 +54,21 @@ public class register extends javax.swing.JFrame {
         jSeparator4 = new javax.swing.JSeparator();
         jLabel10 = new javax.swing.JLabel();
         user = new javax.swing.JTextField();
+=======
+        love = new javax.swing.JLabel();
+        name = new javax.swing.JTextField();
+        love2 = new javax.swing.JLabel();
+        password = new javax.swing.JPasswordField();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel8 = new javax.swing.JLabel();
+        love3 = new javax.swing.JLabel();
+        lastname = new javax.swing.JTextField();
+        jSeparator3 = new javax.swing.JSeparator();
+        jSeparator4 = new javax.swing.JSeparator();
+        love4 = new javax.swing.JLabel();
+        username = new javax.swing.JTextField();
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,8 +125,8 @@ public class register extends javax.swing.JFrame {
 
         jPanel6.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 70, 30));
 
-        jLabel6.setText("Password:");
-        jPanel6.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
+        love.setText("Password:");
+        jPanel6.add(love, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
 
         name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,15 +135,24 @@ public class register extends javax.swing.JFrame {
         });
         jPanel6.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 130, 30));
 
-        jLabel7.setText("LastName:");
-        jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
+        love2.setText("LastName:");
+        jPanel6.add(love2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, -1));
 
+<<<<<<< HEAD
         pass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passActionPerformed(evt);
             }
         });
         jPanel6.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, 30));
+=======
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+        jPanel6.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, 130, 30));
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
         jPanel6.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, 190, 10));
         jPanel6.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 170, 190, 10));
 
@@ -139,27 +164,45 @@ public class register extends javax.swing.JFrame {
         });
         jPanel6.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 370, -1, -1));
 
-        jLabel9.setText("Username:");
-        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
+        love3.setText("Username:");
+        jPanel6.add(love3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
 
+<<<<<<< HEAD
         last.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastActionPerformed(evt);
             }
         });
         jPanel6.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, 30));
+=======
+        lastname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lastnameActionPerformed(evt);
+            }
+        });
+        jPanel6.add(lastname, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 130, 30));
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
         jPanel6.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 222, 190, 10));
         jPanel6.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 190, 10));
 
-        jLabel10.setText("FirstName:");
-        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
+        love4.setText("FirstName:");
+        jPanel6.add(love4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
 
+<<<<<<< HEAD
         user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userActionPerformed(evt);
             }
         });
         jPanel6.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 130, 30));
+=======
+        username.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameActionPerformed(evt);
+            }
+        });
+        jPanel6.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 130, 30));
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, -20, 340, 530));
 
@@ -176,6 +219,7 @@ public class register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
+<<<<<<< HEAD
       config con = new config();
 
 String sql = "INSERT INTO Register (name, lastname, username, password, status) VALUES (?, ?, ?, ?, ?)";
@@ -189,6 +233,12 @@ con.addRecord(
     "User" 
 );
 
+=======
+       config con = new config();
+       String sql = "INSERT INTO Register (firstname, lastname, username,password) VALUES (?, ?, ?, ?)"; 
+       
+       con.addRecord(sql, name.getText(), lastname.getText(),username.getText(),password.getText());
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
@@ -219,6 +269,7 @@ con.addRecord(
        this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
 
+<<<<<<< HEAD
     private void lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lastActionPerformed
@@ -230,6 +281,19 @@ con.addRecord(
     private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passActionPerformed
+=======
+    private void lastnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastnameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lastnameActionPerformed
+
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameActionPerformed
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
 
     /**
      * @param args the command line arguments
@@ -271,15 +335,11 @@ con.addRecord(
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -289,9 +349,20 @@ con.addRecord(
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+<<<<<<< HEAD
     private javax.swing.JTextField last;
     private javax.swing.JTextField name;
     private javax.swing.JPasswordField pass;
     private javax.swing.JTextField user;
+=======
+    private javax.swing.JTextField lastname;
+    private javax.swing.JLabel love;
+    private javax.swing.JLabel love2;
+    private javax.swing.JLabel love3;
+    private javax.swing.JLabel love4;
+    private javax.swing.JTextField name;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JTextField username;
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
     // End of variables declaration//GEN-END:variables
 }

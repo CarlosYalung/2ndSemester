@@ -8,7 +8,10 @@ package Config;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+<<<<<<< HEAD
 import java.sql.ResultSet;
+=======
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
 import java.sql.SQLException;
 
 /**
@@ -17,7 +20,7 @@ import java.sql.SQLException;
  */
 public class config {
     
-    //Connection Method to SQLITE
+   //Connection Method to SQLITE
 public static Connection connectDB() {
         Connection con = null;
         try {
@@ -29,7 +32,11 @@ public static Connection connectDB() {
         }
         return con;
     }
+<<<<<<< HEAD
     public void addRecord(String sql, Object... values) {
+=======
+public void addRecord(String sql, Object... values) {
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
     try (Connection conn = this.connectDB(); // Use the connectDB method
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -62,6 +69,7 @@ public static Connection connectDB() {
         System.out.println("Error adding record: " + e.getMessage());
     }
 }
+<<<<<<< HEAD
 public String authenticate(String sql, Object... values) {
     try (Connection conn = connectDB();
          PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -81,4 +89,6 @@ public String authenticate(String sql, Object... values) {
     return null;
 }
 
+=======
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
 }

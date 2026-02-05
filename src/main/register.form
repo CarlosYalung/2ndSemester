@@ -163,7 +163,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JLabel" name="jLabel6">
+                <Component class="javax.swing.JLabel" name="love">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Password:"/>
                   </Properties>
@@ -183,7 +183,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel7">
+                <Component class="javax.swing.JLabel" name="love2">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="LastName:"/>
                   </Properties>
@@ -193,9 +193,15 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+<<<<<<< HEAD
                 <Component class="javax.swing.JPasswordField" name="pass">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passActionPerformed"/>
+=======
+                <Component class="javax.swing.JPasswordField" name="password">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordActionPerformed"/>
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -230,7 +236,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel9">
+                <Component class="javax.swing.JLabel" name="love3">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Username:"/>
                   </Properties>
@@ -240,9 +246,15 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+<<<<<<< HEAD
                 <Component class="javax.swing.JTextField" name="last">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lastActionPerformed"/>
+=======
+                <Component class="javax.swing.JTextField" name="lastname">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lastnameActionPerformed"/>
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -264,7 +276,7 @@
                     </Constraint>
                   </Constraints>
                 </Component>
-                <Component class="javax.swing.JLabel" name="jLabel10">
+                <Component class="javax.swing.JLabel" name="love4">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="FirstName:"/>
                   </Properties>
@@ -274,9 +286,15 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+<<<<<<< HEAD
                 <Component class="javax.swing.JTextField" name="user">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userActionPerformed"/>
+=======
+                <Component class="javax.swing.JTextField" name="username">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="usernameActionPerformed"/>
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

@@ -160,9 +160,15 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+<<<<<<< HEAD
                 <Component class="javax.swing.JTextField" name="user">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userActionPerformed"/>
+=======
+                <Component class="javax.swing.JTextField" name="un">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="unActionPerformed"/>
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
                   </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -180,10 +186,14 @@
                     </Constraint>
                   </Constraints>
                 </Component>
+<<<<<<< HEAD
                 <Component class="javax.swing.JPasswordField" name="password">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="passwordActionPerformed"/>
                   </Events>
+=======
+                <Component class="javax.swing.JPasswordField" name="ps">
+>>>>>>> 95fc9e66683ceff9233b5847ae42276f8d5bda30
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                       <AbsoluteConstraints x="150" y="250" width="130" height="30"/>
