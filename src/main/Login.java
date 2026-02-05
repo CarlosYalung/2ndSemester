@@ -5,7 +5,11 @@
  */
 package main;
 
+import Config.config;
+import main.UserDashboard;
+import dashboard.adminDashboard;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,9 +42,9 @@ public class Login extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        user = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        password = new javax.swing.JPasswordField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
@@ -100,16 +104,22 @@ public class Login extends javax.swing.JFrame {
         jLabel6.setText("Password:");
         jPanel6.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 260, -1, -1));
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                userActionPerformed(evt);
             }
         });
-        jPanel6.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 130, 30));
+        jPanel6.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 130, 30));
 
         jLabel7.setText("Username:");
         jPanel6.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, -1, -1));
-        jPanel6.add(jPasswordField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, 30));
+
+        password.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordActionPerformed(evt);
+            }
+        });
+        jPanel6.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 250, 130, 30));
         jPanel6.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 290, 190, 10));
         jPanel6.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 222, 190, 10));
 
@@ -140,9 +150,29 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-       Login ifm = new Login();
-       ifm.setVisible(true);
-       this.dispose();
+       config con = new config();
+
+// Only check for username and password
+String sql = "SELECT * FROM Register WHERE username = ? AND password = ?";
+
+// Call your method with just the two inputs
+String accountType = con.authenticate(sql, user.getText(), password.getText());
+
+if (accountType == null) {
+    JOptionPane.showMessageDialog(null, "Invalid Username or Password!");
+} else {
+    JOptionPane.showMessageDialog(null, "LOGIN SUCCESS");
+
+    if (accountType.equalsIgnoreCase("Admin")) {
+        adminDashboard ad = new adminDashboard();
+        ad.setVisible(true);
+        this.dispose();
+    } else if (accountType.equalsIgnoreCase("User")) {
+        UserDashboard ud = new UserDashboard();
+        ud.setVisible(true);
+        this.dispose();
+    }
+}       
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
@@ -163,15 +193,19 @@ public class Login extends javax.swing.JFrame {
         jPanel4.setBackground(new Color(102,102,255));
     }//GEN-LAST:event_jPanel4MouseEntered
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_userActionPerformed
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         register ifm = new register();
        ifm.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passwordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -223,9 +257,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField password;
+    private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }
