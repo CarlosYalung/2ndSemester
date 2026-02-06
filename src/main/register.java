@@ -169,7 +169,7 @@ public class register extends javax.swing.JFrame {
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
  
 config con = new config();
-String sql = "INSERT INTO Register (name, lastname, username, password, status) VALUES (?, ?, ?, ?, ?)";
+String sql = "INSERT INTO Tble_user (name, lastname, username, password, status) VALUES (?, ?, ?, ?, ?)";
 
 con.addRecord( sql,  name.getText(), last.getText(), user.getText(), pass.getText(),  "User" );                          
   JOptionPane.showMessageDialog(null, "Record Added");

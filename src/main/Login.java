@@ -6,6 +6,7 @@
 package main;
 
 import Config.config;
+import dashboard.adminDashboard;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 
@@ -134,7 +135,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
              config con = new config();
-String sql = "SELECT * FROM Register WHERE username = ? AND password = ?";
+String sql = "SELECT * FROM Tble_user WHERE username = ? AND password = ?";
 String accountType = con.authenticate(sql, user.getText(), password.getText());
 
 if (accountType == null) {
