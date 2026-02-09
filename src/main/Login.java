@@ -134,25 +134,29 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-             config con = new config();
-String sql = "SELECT * FROM Tble_user WHERE username = ? AND password = ?";
-String accountType = con.authenticate(sql, user.getText(), password.getText());
+              
+        config con = new config();
+        String sql = "SELECT * FROM tble_user WHERE username = ? AND password = ? AND acstatus = ?";
+        String accountType = con.authenticate(sql, user.getText(), password.getText(), "Active");
+        
+        
+            
+        if (accountType == null) {
+            JOptionPane.showMessageDialog(null, "Credentials might be Invalid, or Username/Password might be incorrect");
+        } else {
+            JOptionPane.showMessageDialog(null, "LOGIN SUCCESS");
 
-if (accountType == null) {
-    JOptionPane.showMessageDialog(null, "Invalid Username or Password!");
-} else {
-    JOptionPane.showMessageDialog(null, "LOGIN SUCCESS");
-
-    if (accountType.equals("Admin")) {
-        adminDashboard ad = new adminDashboard();
-        ad.setVisible(true);
-        this.dispose();
-    } else if (accountType.equals("User")) {
-        UserDashboard ud = new UserDashboard();
-        ud.setVisible(true);
-        this.dispose();
-    }
-}
+            if (accountType.equals("Admin")) {
+                adminDashboard ad = new adminDashboard();
+                ad.setVisible(true);
+                this.dispose();
+            } else if (accountType.equals("User")) {
+                UserDashboard ud = new UserDashboard();
+                ud.setVisible(true);
+                this.dispose();
+            }
+        }
+       
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
@@ -209,6 +213,8 @@ if (accountType == null) {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 

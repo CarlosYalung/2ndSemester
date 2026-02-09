@@ -5,6 +5,7 @@
  */
 package dashboard;
 
+import Config.config;
 import main.UserDashboard.*;
 import main.*;
 import java.awt.Color;
@@ -20,6 +21,40 @@ public class adminDashboard extends javax.swing.JFrame {
      */
     public adminDashboard() {
         initComponents();
+        displayAdmin();
+        displaytable();
+        
+    }
+    
+    void displaytable(){
+        config con = new config();
+        String sql = "SELECT * FROM tble_user";
+        con.displayData(sql, table);
+    }
+    
+    void displayAdmin(){
+        try {
+            java.sql.Connection con = config.connectDB();
+            String sql = "SELECT name, lastname, status FROM tble_user WHERE register_id = ?";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, config.loggedInAID);
+
+            java.sql.ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                nm.setText("Name: " + rs.getString("name"));
+                ln.setText("Last Name: " + rs.getString("lastname"));
+                st.setText("Status: " + rs.getString("status"));
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+        }
+        
     }
 
     /**
@@ -44,11 +79,14 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        st = new javax.swing.JLabel();
+        nm = new javax.swing.JLabel();
+        ln = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -111,9 +149,9 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel12.setBackground(new java.awt.Color(204, 204, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel1.setText("Settings");
-        jPanel12.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel6.setText("Settings");
+        jPanel12.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jPanel4.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 130, 70));
 
@@ -136,12 +174,24 @@ public class adminDashboard extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Name", "Lastame", "Username", "Status"
             }
         ));
         jScrollPane1.setViewportView(table);
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, 240));
+
+        st.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        st.setText("Status:");
+        jPanel3.add(st, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 450, -1, -1));
+
+        nm.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        nm.setText("Name:                           ");
+        jPanel3.add(nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, -1, -1));
+
+        ln.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        ln.setText("Last Name:");
+        jPanel3.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 420, -1, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
@@ -150,7 +200,7 @@ public class adminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-             users rd = new users();
+       users rd = new users();
        rd.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -184,6 +234,10 @@ public class adminDashboard extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -195,11 +249,11 @@ public class adminDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -211,6 +265,9 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel ln;
+    private javax.swing.JLabel nm;
+    private javax.swing.JLabel st;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

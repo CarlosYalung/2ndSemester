@@ -5,6 +5,7 @@
  */
 package main;
 
+import Config.config;
 import dashboard.adminDashboard;
 import main.UserDashboard.*;
 import main.*;
@@ -21,8 +22,34 @@ public class UserDashboard extends javax.swing.JFrame {
      */
     public UserDashboard() {
         initComponents();
+        displayUser();
     }
+    
+    void displayUser(){
+        try {
+            java.sql.Connection con = config.connectDB();
+            String sql = "SELECT name, lastname, status FROM tble_user WHERE register_id = ?";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, config.loggedInAID);
 
+            java.sql.ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                nm.setText("Name: " + rs.getString("name"));
+                ln.setText("Last Name: " + rs.getString("lastname"));
+                st.setText("Status: " + rs.getString("status"));
+            }
+
+            rs.close();
+            pst.close();
+            con.close();
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(null, e);
+        }
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,12 +72,15 @@ public class UserDashboard extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
+        st = new javax.swing.JLabel();
+        nm = new javax.swing.JLabel();
+        ln = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -92,7 +122,7 @@ public class UserDashboard extends javax.swing.JFrame {
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel7.setText("Admin ");
+        jLabel7.setText("Soon...");
         jPanel10.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
         jPanel4.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 130, 80));
@@ -109,9 +139,9 @@ public class UserDashboard extends javax.swing.JFrame {
         jPanel12.setBackground(new java.awt.Color(204, 204, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel1.setText("Admin ");
-        jPanel12.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jLabel8.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel8.setText("Soon... ");
+        jPanel12.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
 
         jPanel4.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 130, 70));
 
@@ -128,6 +158,18 @@ public class UserDashboard extends javax.swing.JFrame {
         jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 120, 100));
         jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, 110, 100));
         jPanel3.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 150, 100, 100));
+
+        st.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        st.setText("Status:      ");
+        jPanel3.add(st, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 430, -1, -1));
+
+        nm.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        nm.setText("Name:                                     ");
+        jPanel3.add(nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 370, -1, -1));
+
+        ln.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        ln.setText("Last Name: ");
+        jPanel3.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 400, -1, -1));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
@@ -174,13 +216,13 @@ public class UserDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -193,5 +235,8 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel ln;
+    private javax.swing.JLabel nm;
+    private javax.swing.JLabel st;
     // End of variables declaration//GEN-END:variables
 }

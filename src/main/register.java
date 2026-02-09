@@ -167,12 +167,25 @@ public class register extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel3MouseExited
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
- 
-config con = new config();
-String sql = "INSERT INTO Tble_user (name, lastname, username, password, status) VALUES (?, ?, ?, ?, ?)";
+        if(name.getText().isEmpty() || last.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "PLEASE FILL OUT EVERYTHING!");
+            
+        }else{  
+            
+        config con = new config();
+        String sql = "SELECT * FROM tble_user WHERE username = ?";
+        String unVal = con.unValidation(sql, user.getText());
 
-con.addRecord( sql,  name.getText(), last.getText(), user.getText(), pass.getText(),  "User" );                          
-  JOptionPane.showMessageDialog(null, "Record Added");
+                if (unVal != null) {
+                    JOptionPane.showMessageDialog(null, "EMAIL IS ALREADY USED, TRY ANOTHER!");
+                    return;
+                }
+        sql = "INSERT INTO Tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
+
+        con.addRecord( sql,  name.getText(), last.getText(), user.getText(), pass.getText(),  "User", "Inactive" );                          
+          JOptionPane.showMessageDialog(null, "Record Added");
+        
+        }
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
@@ -216,6 +229,10 @@ con.addRecord( sql,  name.getText(), last.getText(), user.getText(), pass.getTex
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(register.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

@@ -18,6 +18,8 @@ import net.proteanit.sql.DbUtils;
  */
 public class config {
     
+    public static int loggedInAID;
+    
    //Connection Method to SQLITE
 public static Connection connectDB() {
         Connection con = null;
@@ -73,6 +75,7 @@ public String authenticate(String sql, Object... values) {
 
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
+                loggedInAID = rs.getInt("register_id");
                 return rs.getString("status");
             }
         }
@@ -93,4 +96,26 @@ public void displayData(String sql, javax.swing.JTable table) {
         System.out.println("Error displaying data: " + e.getMessage());
     }
 }
+
+
+    public String unValidation(String sql, Object... values) {
+        try (Connection conn = connectDB();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < values.length; i++) {
+                pstmt.setObject(i + 1, values[i]);
+            }
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("username");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return null;
+    }
+
+
 }
