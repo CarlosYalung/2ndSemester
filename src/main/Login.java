@@ -67,6 +67,8 @@ public class Login extends javax.swing.JFrame {
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel3.setAutoscrolls(true);
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel3MouseClicked(evt);
@@ -80,12 +82,13 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Login");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jLabel1.setText("      Login");
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 40));
 
         jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 70, 40));
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel4MouseClicked(evt);
@@ -93,27 +96,37 @@ public class Login extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel4MouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel4MouseExited(evt);
+            }
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setText("Cancel");
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jLabel5.setText("      Cancel");
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 40));
 
         jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, 70, 40));
 
+        user.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        user.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userActionPerformed(evt);
             }
         });
-        jPanel5.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 100, -1));
+        jPanel5.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 220, 40));
 
+        jLabel3.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel3.setText("Username:");
-        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, -1, 20));
-        jPanel5.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 100, -1));
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, -1, 20));
 
+        password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        password.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, 220, 40));
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel6.setText("Password:");
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 210, -1, -1));
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 210, -1, -1));
 
         jLabel7.setText("Click here to Create New Account");
         jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -121,7 +134,7 @@ public class Login extends javax.swing.JFrame {
                 jLabel7MouseClicked(evt);
             }
         });
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 360, -1, 20));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, -1, 20));
 
         jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 340, 490));
 
@@ -187,6 +200,10 @@ public class Login extends javax.swing.JFrame {
        this.dispose();
                   
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jPanel4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseExited
+          jPanel4.setBackground(new Color(153,153,255));
+    }//GEN-LAST:event_jPanel4MouseExited
 
     /**
      * @param args the command line arguments

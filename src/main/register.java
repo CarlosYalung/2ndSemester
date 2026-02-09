@@ -33,7 +33,6 @@ public class register extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -49,6 +48,9 @@ public class register extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
         last = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -59,17 +61,15 @@ public class register extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-130, 160, 350, 350));
-
         jLabel4.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
         jLabel4.setText("DripHorizon");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
 
         jPanel5.setBackground(new java.awt.Color(153, 51, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel3MouseClicked(evt);
@@ -83,12 +83,13 @@ public class register extends javax.swing.JFrame {
         });
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Login");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jLabel1.setText("       Login");
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 40));
 
-        jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 240, 70, 40));
+        jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 390, 70, 40));
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel4MouseClicked(evt);
@@ -96,52 +97,84 @@ public class register extends javax.swing.JFrame {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jPanel4MouseEntered(evt);
             }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jPanel4MouseExited(evt);
+            }
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setText("Register");
-        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jLabel5.setText("     Register");
+        jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 40));
 
-        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, 70, 40));
+        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, 70, 40));
 
+        user.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        user.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 userActionPerformed(evt);
             }
         });
-        jPanel5.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 100, -1));
+        jPanel5.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 120, 220, 30));
 
-        jLabel3.setText("FirstName");
-        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, -1, 20));
-        jPanel5.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 100, -1));
+        jLabel3.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        jLabel3.setText("FirstName:");
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, -1, 20));
 
-        jLabel6.setText("Username");
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, -1, -1));
+        pass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pass.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        pass.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passActionPerformed(evt);
+            }
+        });
+        jPanel5.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 220, 30));
+
+        jLabel6.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        jLabel6.setText("Username:");
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
 
         jLabel7.setText("Click here to Create New Account");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, -1, 20));
+        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, -1, 20));
 
+        jLabel8.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
-        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, -1, -1));
+        jPanel5.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 310, -1, -1));
 
-        jLabel9.setText("LastName");
-        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
+        jLabel9.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        jLabel9.setText("LastName:");
+        jPanel5.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, -1, -1));
 
+        name.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        name.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameActionPerformed(evt);
             }
         });
-        jPanel5.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 80, 100, -1));
+        jPanel5.add(name, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 220, 30));
 
+        last.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        last.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         last.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lastActionPerformed(evt);
             }
         });
-        jPanel5.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 120, 100, -1));
+        jPanel5.add(last, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 220, 30));
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 340, 490));
+        jLabel10.setFont(new java.awt.Font("Yu Gothic Medium", 1, 10)); // NOI18N
+        jLabel10.setText("                           Registration, Thank you!");
+        jPanel5.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 340, -1));
+
+        jLabel11.setFont(new java.awt.Font("Yu Gothic Medium", 1, 10)); // NOI18N
+        jLabel11.setText("                    Please fill out the form to complete");
+        jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 340, -1));
+
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 350, 490));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 350, 350));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 510));
 
@@ -167,25 +200,26 @@ public class register extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel3MouseExited
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-        if(name.getText().isEmpty() || last.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "PLEASE FILL OUT EVERYTHING!");
-            
-        }else{  
-            
-        config con = new config();
-        String sql = "SELECT * FROM tble_user WHERE username = ?";
-        String unVal = con.unValidation(sql, user.getText());
+         if(name.getText().isEmpty() || last.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty()){
+                JOptionPane.showMessageDialog(null, "PLEASE FILL OUT EVERYTHING!");
+         } else {  
+             config con = new config();
 
-                if (unVal != null) {
-                    JOptionPane.showMessageDialog(null, "EMAIL IS ALREADY USED, TRY ANOTHER!");
-                    return;
-                }
-        sql = "INSERT INTO Tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
+            
+             String sql = "SELECT * FROM tble_user WHERE username = ?";
+             String unVal = con.unValidation(sql, last.getText()); 
 
-        con.addRecord( sql,  name.getText(), last.getText(), user.getText(), pass.getText(),  "User", "Inactive" );                          
-          JOptionPane.showMessageDialog(null, "Record Added");
-        
-        }
+             if (unVal != null) {
+                 JOptionPane.showMessageDialog(null, "USERNAME IS ALREADY USED, TRY ANOTHER!");
+                 return;
+             }
+
+             
+             sql = "INSERT INTO Tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
+             con.addRecord(sql, name.getText(), last.getText(), user.getText(), pass.getText(), "User", "Inactive");                          
+
+             JOptionPane.showMessageDialog(null, "Record Added");
+         }
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
@@ -203,6 +237,14 @@ public class register extends javax.swing.JFrame {
     private void lastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_lastActionPerformed
+
+    private void jPanel4MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseExited
+          jPanel4.setBackground(new Color(153,153,255));
+    }//GEN-LAST:event_jPanel4MouseExited
+
+    private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_passActionPerformed
 
     /**
      * @param args the command line arguments
@@ -248,6 +290,8 @@ public class register extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
