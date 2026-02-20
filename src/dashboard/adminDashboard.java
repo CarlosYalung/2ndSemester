@@ -37,13 +37,7 @@ public class adminDashboard extends javax.swing.JFrame {
     
     void displaytable() {
     config con = new config();
-
-    // Only show users whose account status is not Active (Pending, Inactive, etc.)
     String sql = "SELECT * FROM tble_user WHERE acstatus != 'Active'"; 
-
-    // If you only want "Pending" accounts specifically:
-    // String sql = "SELECT * FROM tble_user WHERE acstatus = 'Pending'";
-
     con.displayData(sql, table);
 }
     

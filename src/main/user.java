@@ -73,9 +73,9 @@ public class user extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        Profile = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        Edit = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -156,9 +156,9 @@ public class user extends javax.swing.JFrame {
         jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel12.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
-        jLabel12.setText("Edit Profile");
-        jPanel12.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 90, 60));
+        Profile.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        Profile.setText("Edit Profile");
+        jPanel12.add(Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 90, 60));
 
         jPanel2.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 130, 60));
 
@@ -166,9 +166,14 @@ public class user extends javax.swing.JFrame {
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
-        jLabel11.setText("Edit Password");
-        jPanel10.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 130, 60));
+        Edit.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        Edit.setText("Edit Password");
+        Edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EditMouseClicked(evt);
+            }
+        });
+        jPanel10.add(Edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 130, 60));
 
         jPanel2.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 130, 60));
 
@@ -246,6 +251,44 @@ public class user extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
 
+    private void EditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditMouseClicked
+        try {
+        // Ask for new values
+        String newName = javax.swing.JOptionPane.showInputDialog(this, "Enter new first name:", nm.getText().replace("Name: ", ""));
+        if (newName == null) return; // User pressed Cancel
+
+        String newLastName = javax.swing.JOptionPane.showInputDialog(this, "Enter new last name:", ln.getText().replace("Last Name: ", ""));
+        if (newLastName == null) return;
+
+        String newPassword = javax.swing.JOptionPane.showInputDialog(this, "Enter new password:");
+        if (newPassword == null) return;
+
+        // Update database
+        java.sql.Connection con = config.connectDB();
+        String sql = "UPDATE tble_user SET name = ?, lastname = ?, password = ? WHERE register_id = ?";
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, newName);
+        pst.setString(2, newLastName);
+        pst.setString(3, newPassword);
+        pst.setInt(4, config.loggedInAID);
+
+        int updated = pst.executeUpdate();
+        pst.close();
+        con.close();
+
+        if (updated > 0) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Profile updated successfully!");
+            displayUser(); // Refresh labels
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, "Failed to update profile.");
+        }
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+
+    }//GEN-LAST:event_EditMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -285,10 +328,10 @@ public class user extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Edit;
+    private javax.swing.JLabel Profile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

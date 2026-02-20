@@ -17,10 +17,15 @@ import main.Login;
  */
 public class users extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LandingPage
-     */
+   
+     
     public users() {
+        if (!main.Session.isLoggedIn()) {
+        javax.swing.JOptionPane.showMessageDialog(null, "You need to login first!");
+        new main.Login().setVisible(true);
+        this.dispose();
+        return;
+    }
         initComponents();
         displayUser();
     }
@@ -29,6 +34,17 @@ public class users extends javax.swing.JFrame {
             String sql = "SELECT *FROM tble_user";
             con.displayData(sql,table);
         }
+     public void searchData() {
+    config con = new config();
+    String searchStr = jTextField1.getText();
+    
+    // We only use LIKE for name and lastname columns
+    String sql = "SELECT * FROM tble_user WHERE "
+               + "name LIKE '%" + searchStr + "%' OR "
+               + "lastname LIKE '%" + searchStr + "%'";
+    
+    con.displayData(sql, table);
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,6 +71,7 @@ public class users extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
@@ -151,6 +168,13 @@ public class users extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel3.setText("DripHorizon");
         jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 240, -1));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 470, 50));
 
@@ -375,6 +399,10 @@ public class users extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+       searchData();
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -439,6 +467,7 @@ public class users extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
