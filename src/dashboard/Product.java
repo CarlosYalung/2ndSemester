@@ -9,18 +9,19 @@ import Config.config;
 import main.UserDashboard.*;
 import main.*;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author PC
  */
-public class adminDashboard extends javax.swing.JFrame {
-
-    /**
-     * Creates new form LandingPage
-     */
-    public adminDashboard() {
-           if (!Session.isLoggedIn()) {
+public class Product extends javax.swing.JFrame {
+public Product() {
+     if (!Session.isLoggedIn()) {
         javax.swing.JOptionPane.showMessageDialog(this,
                 "You need to login first!");
 
@@ -28,43 +29,44 @@ public class adminDashboard extends javax.swing.JFrame {
         this.dispose();
         return;
     }
-        
-        initComponents();
-        displayAdmin();
-        displaytable();
-        
-    }
-    
-    void displaytable(){
+    initComponents(); // must be first
+    loadProductData(); // after GUI components are ready
+}
+public void loadProductData() {
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Order ID");
+    model.addColumn("Product Name");
+    model.addColumn("Brand");
+    model.addColumn("Size");
+    model.addColumn("Price");
+    model.addColumn("Quantity");
+
+    try {
         config con = new config();
-        String sql = "SELECT * FROM tble_user";
-        con.displayData(sql, table);
-    }
-    
-    void displayAdmin(){
-        try {
-            java.sql.Connection con = config.connectDB();
-            String sql = "SELECT name, lastname, status FROM tble_user WHERE register_id = ?";
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, config.loggedInAID);
+        Connection cn = con.connectDB();
+        String sql = "SELECT * FROM tble_order";
+        PreparedStatement pst = cn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
 
-            java.sql.ResultSet rs = pst.executeQuery();
-
-            if (rs.next()) {
-                nm.setText("Name: " + rs.getString("name"));
-                ln.setText("Last Name: " + rs.getString("lastname"));
-                st.setText("Status: " + rs.getString("status"));
-            }
-
-            rs.close();
-            pst.close();
-            con.close();
-
-        } catch (Exception e) {
-            javax.swing.JOptionPane.showMessageDialog(null, e);
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("Order_id"),
+                rs.getString("PName"),
+                rs.getString("Brand"),
+                rs.getString("Size"),
+                rs.getDouble("Price"),
+                rs.getInt("Quantity")
+            });
         }
-        
+
+        Table2.setModel(model); // ✅ Use the existing Table2
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error Loading Products: " + e.getMessage());
     }
+}
+
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -92,10 +94,8 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
-        st = new javax.swing.JLabel();
-        nm = new javax.swing.JLabel();
-        ln = new javax.swing.JLabel();
+        Table2 = new javax.swing.JTable();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -179,7 +179,7 @@ public class adminDashboard extends javax.swing.JFrame {
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 470, 50));
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
+        Table2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -190,21 +190,17 @@ public class adminDashboard extends javax.swing.JFrame {
                 "Name", "Lastame", "Username", "Status"
             }
         ));
-        jScrollPane1.setViewportView(table);
+        jScrollPane1.setViewportView(Table2);
 
         jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, 240));
 
-        st.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        st.setText("Status:");
-        jPanel3.add(st, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 450, -1, -1));
-
-        nm.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        nm.setText("Name:                           ");
-        jPanel3.add(nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, -1, -1));
-
-        ln.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        ln.setText("Last Name:");
-        jPanel3.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 420, -1, -1));
+        jButton3.setText("Add Product");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, 30));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
@@ -224,6 +220,45 @@ public class adminDashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+                                              
+    try {
+        // Ask user for product details
+        String pname = JOptionPane.showInputDialog("Enter Product Name:");
+        String brand = JOptionPane.showInputDialog("Enter Brand:");
+        String size = JOptionPane.showInputDialog("Enter Size:");
+        double price = Double.parseDouble(JOptionPane.showInputDialog("Enter Price:"));
+        int quantity = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
+
+        // Add to the table
+        DefaultTableModel model = (DefaultTableModel) Table2.getModel();
+        
+        // Optional: Get next Order ID
+        int nextId = model.getRowCount() + 1;
+
+        model.addRow(new Object[]{nextId, pname, brand, size, price, quantity});
+
+        // Optional: Add to database
+        config con = new config();
+        Connection cn = con.connectDB();
+        String sql = "INSERT INTO tble_order (PName, Brand, Size, Price, Quantity) VALUES (?, ?, ?, ?, ?)";
+        PreparedStatement pst = cn.prepareStatement(sql);
+        pst.setString(1, pname);
+        pst.setString(2, brand);
+        pst.setString(3, size);
+        pst.setDouble(4, price);
+        pst.setInt(5, quantity);
+        pst.executeUpdate();
+
+        JOptionPane.showMessageDialog(null, "Product added successfully!");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+    }
+
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -241,14 +276,22 @@ public class adminDashboard extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(adminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(adminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(adminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(adminDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -261,14 +304,16 @@ public class adminDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new adminDashboard().setVisible(true);
+                new Product().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Table2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -284,9 +329,5 @@ public class adminDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel ln;
-    private javax.swing.JLabel nm;
-    private javax.swing.JLabel st;
-    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,23 +7,71 @@ package main;
 
 import Config.config;
 import dashboard.adminDashboard;
-import main.UserDashboard.*;
+import main.Order.*;
 import main.*;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author PC
  */
-public class UserDashboard extends javax.swing.JFrame {
+public class Order extends javax.swing.JFrame {
 
     /**
      * Creates new form LandingPage
      */
-    public UserDashboard() {
+    public Order() {
+         if (!Session.isLoggedIn()) {
+        javax.swing.JOptionPane.showMessageDialog(this,
+                "You need to login first!");
+
+        new Login().setVisible(true);
+        this.dispose();
+        return;
+    }
         initComponents();
         displayUser();
+        loadOrderData();
     }
+    public void loadOrderData() {
+    DefaultTableModel model = new DefaultTableModel();
+    model.addColumn("Order ID");
+    model.addColumn("Product Name");
+    model.addColumn("Brand");
+    model.addColumn("Size");
+    model.addColumn("Price");
+    model.addColumn("Quantity");
+
+    try {
+        config con = new config();
+        Connection cn = con.connectDB();
+        String sql = "SELECT * FROM tble_order";
+        PreparedStatement pst = cn.prepareStatement(sql);
+        ResultSet rs = pst.executeQuery();
+
+        while (rs.next()) {
+            model.addRow(new Object[]{
+                rs.getInt("Order_id"),
+                rs.getString("PName"),
+                rs.getString("Brand"),
+                rs.getInt("Size"),
+                rs.getString("Price"),
+                rs.getInt("Quantity"),
+            });
+        }
+
+        Jtable.setModel(model);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error Loading Data: " + e.getMessage());
+    }
+}
+
     
     void displayUser() {
     try {
@@ -84,10 +132,18 @@ public class UserDashboard extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        txtQuantity = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        txtProduct = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Jtable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -190,9 +246,9 @@ public class UserDashboard extends javax.swing.JFrame {
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Product.png"))); // NOI18N
         jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 60));
 
-        jLabel12.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
-        jLabel12.setText("            Product");
-        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 60));
+        jLabel15.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        jLabel15.setText("            Product");
+        jPanel5.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 60));
 
         jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 130, 60));
 
@@ -206,16 +262,62 @@ public class UserDashboard extends javax.swing.JFrame {
 
         jLabel13.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel13.setText("            Orders");
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
-            }
-        });
         jPanel10.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 130, 60));
 
         jPanel2.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 130, 60));
 
         jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 490));
+
+        jLabel12.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        jLabel12.setText("Select Product");
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 220, 110, 30));
+
+        jLabel16.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        jLabel16.setText("Product Quantity");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 360, 130, 30));
+        jPanel3.add(txtQuantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, 250, 40));
+
+        jLabel17.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        jLabel17.setText("Product Name");
+        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 110, 30));
+
+        txtProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtProductActionPerformed(evt);
+            }
+        });
+        jPanel3.add(txtProduct, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 250, 40));
+
+        jButton1.setText("Buy");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 460, 80, -1));
+
+        Jtable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
+            }
+        ));
+        jScrollPane2.setViewportView(Jtable);
+        if (Jtable.getColumnModel().getColumnCount() > 0) {
+            Jtable.getColumnModel().getColumn(0).setHeaderValue("Title 1");
+            Jtable.getColumnModel().getColumn(1).setHeaderValue("Title 2");
+            Jtable.getColumnModel().getColumn(2).setHeaderValue("Title 3");
+            Jtable.getColumnModel().getColumn(3).setHeaderValue("Title 4");
+            Jtable.getColumnModel().getColumn(4).setHeaderValue("Title 5");
+        }
+
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 110, 410, 80));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
@@ -235,11 +337,86 @@ public class UserDashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
 
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        Order or = new Order();
-        or.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jLabel13MouseClicked
+    private void txtProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtProductActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtProductActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                                        
+    int userID = config.loggedInAID;
+
+    if (userID == 0) {
+        JOptionPane.showMessageDialog(null, "No user logged in!");
+        return;
+    }
+
+    String product = txtProduct.getText().trim();
+    int qty = 0;
+
+    try {
+        qty = Integer.parseInt(txtQuantity.getText().trim());
+        if (qty <= 0) {
+            JOptionPane.showMessageDialog(null, "Quantity must be greater than 0!");
+            return;
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Enter valid quantity!");
+        return;
+    }
+
+    config con = new config();
+    int stock = 0;
+
+    String stockSQL = "SELECT Quantity FROM tble_order WHERE PName = ?";
+    try (Connection conn = config.connectDB();
+         PreparedStatement pst = conn.prepareStatement(stockSQL)) {
+
+        pst.setString(1, product);
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            stock = rs.getInt("Quantity");
+        } else {
+            JOptionPane.showMessageDialog(null, "Product not found!");
+            return;
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error checking stock: " + e.getMessage());
+        return;
+    }
+
+    if (qty > stock) {
+        JOptionPane.showMessageDialog(null, "Not enough stock! Available: " + stock);
+        return;
+    }
+
+    String username = "";
+    String getUserSQL = "SELECT username FROM tble_user WHERE register_id = ?";
+    try (Connection conn = config.connectDB();
+         PreparedStatement pst = conn.prepareStatement(getUserSQL)) {
+
+        pst.setInt(1, userID);
+        ResultSet rs = pst.executeQuery();
+        if (rs.next()) {
+            username = rs.getString("username");
+        }
+
+    } catch (Exception e) {
+        System.out.println("Error getting username: " + e.getMessage());
+        return;
+    }
+
+    String buyerSQL = "INSERT INTO tble_buyer (name, product, quantity) VALUES (?, ?, ?)";
+    con.addRecord(buyerSQL, username, product, qty);
+
+    String updateStockSQL = "UPDATE tble_order SET Quantity = Quantity - ? WHERE PName = ?";
+    con.addRecord(updateStockSQL, qty, product);
+
+    JOptionPane.showMessageDialog(null, "Purchase Successful!");
+    loadOrderData();
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -280,12 +457,17 @@ public class UserDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable Jtable;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -304,6 +486,9 @@ public class UserDashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel nm;
+    private javax.swing.JTextField txtProduct;
+    private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

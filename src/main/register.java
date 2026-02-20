@@ -43,7 +43,6 @@ public class register extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         pass = new javax.swing.JPasswordField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         name = new javax.swing.JTextField();
@@ -133,9 +132,6 @@ public class register extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel6.setText("Username:");
         jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
-
-        jLabel7.setText("Click here to Create New Account");
-        jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 440, -1, 20));
 
         jLabel8.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
@@ -297,7 +293,6 @@ public class register extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;

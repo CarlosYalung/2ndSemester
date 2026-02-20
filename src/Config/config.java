@@ -19,7 +19,8 @@ import net.proteanit.sql.DbUtils;
 public class config {
     
     public static int loggedInAID;
-    
+    Connection cn = config.connectDB();
+
    //Connection Method to SQLITE
 public static Connection connectDB() {
         Connection con = null;
@@ -75,7 +76,7 @@ public String authenticate(String sql, Object... values) {
 
         try (ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
-                loggedInAID = rs.getInt("register_id");
+                loggedInAID = rs.getInt("register_id"); // <-- HERE
                 return rs.getString("status");
             }
         }
@@ -84,6 +85,7 @@ public String authenticate(String sql, Object... values) {
     }
     return null;
 }
+
 public void displayData(String sql, javax.swing.JTable table) {
     try (Connection conn = connectDB();
          PreparedStatement pstmt = conn.prepareStatement(sql);
