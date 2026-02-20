@@ -31,7 +31,7 @@ public static Connection connectDB() {
         } catch (Exception e) {
             System.out.println("Connection Failed: " + e);
         }
-        return con;
+            return con;
     }
     public void addRecord(String sql, Object... values) {
     try (Connection conn = this.connectDB(); // Use the connectDB method

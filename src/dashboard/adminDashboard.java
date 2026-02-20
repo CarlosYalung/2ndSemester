@@ -35,11 +35,18 @@ public class adminDashboard extends javax.swing.JFrame {
         
     }
     
-    void displaytable(){
-        config con = new config();
-        String sql = "SELECT * FROM tble_user";
-        con.displayData(sql, table);
-    }
+    void displaytable() {
+    config con = new config();
+
+    // Only show users whose account status is not Active (Pending, Inactive, etc.)
+    String sql = "SELECT * FROM tble_user WHERE acstatus != 'Active'"; 
+
+    // If you only want "Pending" accounts specifically:
+    // String sql = "SELECT * FROM tble_user WHERE acstatus = 'Pending'";
+
+    con.displayData(sql, table);
+}
+    
     
     void displayAdmin(){
         try {
@@ -82,13 +89,13 @@ public class adminDashboard extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -96,6 +103,7 @@ public class adminDashboard extends javax.swing.JFrame {
         st = new javax.swing.JLabel();
         nm = new javax.swing.JLabel();
         ln = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -127,13 +135,13 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel9.setBackground(new java.awt.Color(204, 204, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton6.setText("Users");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton6ActionPerformed(evt);
             }
         });
-        jPanel9.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        jPanel9.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
 
         jPanel4.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 130, 70));
 
@@ -153,18 +161,26 @@ public class adminDashboard extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(204, 204, 255));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel5.setText("Home");
-        jPanel11.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jButton1.setText("Home");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel11.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
         jPanel4.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 130, 80));
 
         jPanel12.setBackground(new java.awt.Color(204, 204, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel6.setText("Settings");
-        jPanel12.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jButton5.setText("Logout");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
 
         jPanel4.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 130, 70));
 
@@ -192,7 +208,7 @@ public class adminDashboard extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, 240));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, 100));
 
         st.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         st.setText("Status:");
@@ -206,23 +222,85 @@ public class adminDashboard extends javax.swing.JFrame {
         ln.setText("Last Name:");
         jPanel3.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 420, -1, -1));
 
+        jButton3.setText("Approved");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 400, -1, -1));
+
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       users rd = new users();
-       rd.setVisible(true);
-       this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Product dc = new Product();
         dc.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       int selectedRow = table.getSelectedRow();
+
+    if (selectedRow == -1) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Please select a user to approve.");
+        return;
+    }
+
+    // Assuming your first column (0) is register_id or you can get the username
+    int userID = (int) table.getValueAt(selectedRow, 0); // adjust column if needed
+
+    try {
+        java.sql.Connection con = config.connectDB();
+        String sql = "UPDATE tble_user SET acstatus = 'Active' WHERE register_id = ?";
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, userID);
+
+        int updated = pst.executeUpdate();
+        pst.close();
+        con.close();
+
+        if (updated > 0) {
+            javax.swing.JOptionPane.showMessageDialog(null, "User approved successfully!");
+            displaytable(); // refresh the table
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(null, "Failed to approve the user.");
+        }
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage());
+    }
+   
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        users rd = new users();
+        rd.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        main.Session.logout();
+
+        // Notify the user
+        javax.swing.JOptionPane.showMessageDialog(null, "Logged out successfully.");
+
+        // Redirect to Login
+        Login lc = new Login();
+        lc.setVisible(true);
+
+        // Close the dashboard
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        adminDashboard ad = new adminDashboard();
+        ad.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,6 +335,14 @@ public class adminDashboard extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -269,11 +355,12 @@ public class adminDashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;

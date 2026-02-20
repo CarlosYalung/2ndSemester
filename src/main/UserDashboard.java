@@ -230,9 +230,12 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        LandingPage ifm = new LandingPage();
-        ifm.setVisible(true);
-        this.dispose();
+
+    Session.logout();
+
+    LandingPage landing = new LandingPage();
+    landing.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
