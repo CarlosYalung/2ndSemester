@@ -232,7 +232,7 @@ public class UserDashboard extends javax.swing.JFrame {
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
 
     Session.logout();
-
+javax.swing.JOptionPane.showMessageDialog(null, "Logged out successfully.");
     LandingPage landing = new LandingPage();
     landing.setVisible(true);
     this.dispose();
