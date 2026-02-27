@@ -10,6 +10,9 @@ import dashboard.adminDashboard;
 import main.user.*;
 import main.*;
 import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -252,40 +255,59 @@ public class user extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void EditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditMouseClicked
-        try {
-        // Ask for new values
-        String newName = javax.swing.JOptionPane.showInputDialog(this, "Enter new first name:", nm.getText().replace("Name: ", ""));
-        if (newName == null) return; // User pressed Cancel
+                                  
+    try {
+        // Create a panel with grid layout
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
 
-        String newLastName = javax.swing.JOptionPane.showInputDialog(this, "Enter new last name:", ln.getText().replace("Last Name: ", ""));
-        if (newLastName == null) return;
+        // Current values from labels
+        String currentName = nm.getText().replace("Name: ", "");
+        String currentLastName = ln.getText().replace("Last Name: ", "");
 
-        String newPassword = javax.swing.JOptionPane.showInputDialog(this, "Enter new password:");
-        if (newPassword == null) return;
+        // Create text fields with current values
+        JTextField nameField = new JTextField(currentName);
+        JTextField lastNameField = new JTextField(currentLastName);
+        JTextField passwordField = new JTextField(); // leave blank for new password
 
-        // Update database
-        java.sql.Connection con = config.connectDB();
-        String sql = "UPDATE tble_user SET name = ?, lastname = ?, password = ? WHERE register_id = ?";
-        java.sql.PreparedStatement pst = con.prepareStatement(sql);
-        pst.setString(1, newName);
-        pst.setString(2, newLastName);
-        pst.setString(3, newPassword);
-        pst.setInt(4, config.loggedInAID);
+        // Add labels and fields to panel
+        panel.add(new JLabel("First Name:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Last Name:"));
+        panel.add(lastNameField);
+        panel.add(new JLabel("Password:"));
+        panel.add(passwordField);
 
-        int updated = pst.executeUpdate();
-        pst.close();
-        con.close();
+        // Show panel in a single dialog
+        int result = javax.swing.JOptionPane.showConfirmDialog(this, panel, 
+            "Edit Profile", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
 
-        if (updated > 0) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Profile updated successfully!");
-            displayUser(); // Refresh labels
-        } else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Failed to update profile.");
+        if (result == javax.swing.JOptionPane.OK_OPTION) {
+            // Update database
+            java.sql.Connection con = config.connectDB();
+            String sql = "UPDATE tble_user SET name = ?, lastname = ?, password = ? WHERE register_id = ?";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, nameField.getText());
+            pst.setString(2, lastNameField.getText());
+            pst.setString(3, passwordField.getText());
+            pst.setInt(4, config.loggedInAID);
+
+            int updated = pst.executeUpdate();
+            pst.close();
+            con.close();
+
+            if (updated > 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Profile updated successfully!");
+                displayUser(); // Refresh labels
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Failed to update profile.");
+            }
         }
 
     } catch (Exception e) {
         javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
     }
+
 
     }//GEN-LAST:event_EditMouseClicked
 

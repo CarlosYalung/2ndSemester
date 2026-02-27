@@ -161,7 +161,7 @@ public class adminDashboard extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel11.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
+        jPanel11.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 70, 40));
 
         jPanel4.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 130, 80));
 

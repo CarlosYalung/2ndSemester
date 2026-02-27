@@ -8,7 +8,12 @@ package dashboard;
 import Config.config;
 import dashboard.adminDashboard;
 import java.awt.Color;
+import java.awt.GridLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import main.Login;
 
 /**
@@ -174,6 +179,11 @@ public class users extends javax.swing.JFrame {
                 jTextField1ActionPerformed(evt);
             }
         });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
         jPanel6.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 240, -1));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 470, 50));
@@ -226,36 +236,70 @@ public class users extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     try {
-        String name = JOptionPane.showInputDialog(this, "Enter First Name:");
-        if (name == null || name.isEmpty()) return;
+    try {
 
-        String lastname = JOptionPane.showInputDialog(this, "Enter Last Name:");
-        if (lastname == null || lastname.isEmpty()) return;
+    JTextField txtName = new JTextField();
+    JTextField txtLastname = new JTextField();
+    JTextField txtUsername = new JTextField();
+    JTextField txtPassword = new JTextField();
 
-        String username = JOptionPane.showInputDialog(this, "Enter Username:");
-        if (username == null || username.isEmpty()) return;
+    String[] roleOptions = {"Admin", "User"};
+    JComboBox<String> cbStatus = new JComboBox<>(roleOptions);
 
-        String password = JOptionPane.showInputDialog(this, "Enter Password:");
-        if (password == null || password.isEmpty()) return;
+    String[] acOptions = {"Active", "Inactive"};
+    JComboBox<String> cbAcstatus = new JComboBox<>(acOptions);
 
-        String status = JOptionPane.showInputDialog(this, "Enter Status (Admin/User):");
-        if (status == null || status.isEmpty()) return;
+    JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
 
-        String acstatus = "Active";
+    panel.add(new JLabel("First Name:"));
+    panel.add(txtName);
+
+    panel.add(new JLabel("Last Name:"));
+    panel.add(txtLastname);
+
+    panel.add(new JLabel("Username:"));
+    panel.add(txtUsername);
+
+    panel.add(new JLabel("Password:"));
+    panel.add(txtPassword);
+
+    panel.add(new JLabel("Status:"));
+    panel.add(cbStatus);
+
+    panel.add(new JLabel("Account Status:"));
+    panel.add(cbAcstatus);
+
+    int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Add New User",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+    );
+
+    if (result == JOptionPane.OK_OPTION) {
+
+        if (txtName.getText().isEmpty() ||
+            txtLastname.getText().isEmpty() ||
+            txtUsername.getText().isEmpty() ||
+            txtPassword.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "All fields are required!");
+            return;
+        }
 
         config con = new config();
-        String sql = "INSERT INTO tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
-
         java.sql.Connection connection = con.connectDB();
+
+        String sql = "INSERT INTO tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
         java.sql.PreparedStatement pst = connection.prepareStatement(sql);
 
-        pst.setString(1, name);
-        pst.setString(2, lastname);
-        pst.setString(3, username);
-        pst.setString(4, password);
-        pst.setString(5, status);
-        pst.setString(6, acstatus);
+        pst.setString(1, txtName.getText());
+        pst.setString(2, txtLastname.getText());
+        pst.setString(3, txtUsername.getText());
+        pst.setString(4, txtPassword.getText());
+        pst.setString(5, cbStatus.getSelectedItem().toString());
+        pst.setString(6, cbAcstatus.getSelectedItem().toString());
 
         pst.executeUpdate();
 
@@ -264,13 +308,12 @@ public class users extends javax.swing.JFrame {
         pst.close();
         connection.close();
 
-        displayUser(); // refresh table
+        displayUser();
+    }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error adding user: " + e.getMessage());
-    
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error adding user: " + e.getMessage());
 }
-
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -318,24 +361,53 @@ public class users extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+int selectedRow = table.getSelectedRow();
 
+if (selectedRow == -1) {
+    JOptionPane.showMessageDialog(this, "Select user to update.");
+    return;
+}
 
-    int selectedRow = table.getSelectedRow();
+try {
+    int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
 
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Select user to update.");
-        return;
-    }
+    JTextField txtName = new JTextField(table.getValueAt(selectedRow, 1).toString());
+    JTextField txtLastname = new JTextField(table.getValueAt(selectedRow, 2).toString());
+    JTextField txtUsername = new JTextField(table.getValueAt(selectedRow, 3).toString());
+    JTextField txtPassword = new JTextField(table.getValueAt(selectedRow, 4).toString());
+    JTextField txtStatus = new JTextField(table.getValueAt(selectedRow, 5).toString());
+    JTextField txtAcstatus = new JTextField(table.getValueAt(selectedRow, 6).toString());
 
-    try {
-        int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridLayout(0, 2, 10, 10));
 
-        String name = JOptionPane.showInputDialog(this, "First Name:", table.getValueAt(selectedRow, 1));
-        String lastname = JOptionPane.showInputDialog(this, "Last Name:", table.getValueAt(selectedRow, 2));
-        String username = JOptionPane.showInputDialog(this, "Username:", table.getValueAt(selectedRow, 3));
-        String password = JOptionPane.showInputDialog(this, "Password:", table.getValueAt(selectedRow, 4));
-        String status = JOptionPane.showInputDialog(this, "Status:", table.getValueAt(selectedRow, 5));
-        String acstatus = JOptionPane.showInputDialog(this, "Account Status:", table.getValueAt(selectedRow, 6));
+    panel.add(new JLabel("First Name:"));
+    panel.add(txtName);
+
+    panel.add(new JLabel("Last Name:"));
+    panel.add(txtLastname);
+
+    panel.add(new JLabel("Username:"));
+    panel.add(txtUsername);
+
+    panel.add(new JLabel("Password:"));
+    panel.add(txtPassword);
+
+    panel.add(new JLabel("Status:"));
+    panel.add(txtStatus);
+
+    panel.add(new JLabel("Account Status:"));
+    panel.add(txtAcstatus);
+
+    int result = JOptionPane.showConfirmDialog(
+        this,
+        panel,
+        "Update User: " + table.getValueAt(selectedRow, 1),
+        JOptionPane.OK_CANCEL_OPTION,
+        JOptionPane.PLAIN_MESSAGE
+    );
+
+    if (result == JOptionPane.OK_OPTION) {
 
         config con = new config();
         java.sql.Connection connection = con.connectDB();
@@ -343,12 +415,12 @@ public class users extends javax.swing.JFrame {
         String sql = "UPDATE tble_user SET name=?, lastname=?, username=?, password=?, status=?, acstatus=? WHERE register_id=?";
         java.sql.PreparedStatement pst = connection.prepareStatement(sql);
 
-        pst.setString(1, name);
-        pst.setString(2, lastname);
-        pst.setString(3, username);
-        pst.setString(4, password);
-        pst.setString(5, status);
-        pst.setString(6, acstatus);
+        pst.setString(1, txtName.getText());
+        pst.setString(2, txtLastname.getText());
+        pst.setString(3, txtUsername.getText());
+        pst.setString(4, txtPassword.getText());
+        pst.setString(5, txtStatus.getText());
+        pst.setString(6, txtAcstatus.getText());
         pst.setInt(7, id);
 
         pst.executeUpdate();
@@ -359,12 +431,13 @@ public class users extends javax.swing.JFrame {
         connection.close();
 
         displayUser();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error updating: " + e.getMessage());
     }
 
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error updating: " + e.getMessage());
+}
 
+   
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -400,8 +473,12 @@ public class users extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-       searchData();
+      
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+         searchData();
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments

@@ -227,40 +227,8 @@ public void loadProductData() {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
                                               
-    try {
-        // Ask user for product details
-        String pname = JOptionPane.showInputDialog("Enter Product Name:");
-        String brand = JOptionPane.showInputDialog("Enter Brand:");
-        String size = JOptionPane.showInputDialog("Enter Size:");
-        double price = Double.parseDouble(JOptionPane.showInputDialog("Enter Price:"));
-        int quantity = Integer.parseInt(JOptionPane.showInputDialog("Enter Quantity:"));
-
-        // Add to the table
-        DefaultTableModel model = (DefaultTableModel) Table2.getModel();
-        
-        // Optional: Get next Order ID
-        int nextId = model.getRowCount() + 1;
-
-        model.addRow(new Object[]{nextId, pname, brand, size, price, quantity});
-
-        // Optional: Add to database
-        config con = new config();
-        Connection cn = con.connectDB();
-        String sql = "INSERT INTO tble_order (PName, Brand, Size, Price, Quantity) VALUES (?, ?, ?, ?, ?)";
-        PreparedStatement pst = cn.prepareStatement(sql);
-        pst.setString(1, pname);
-        pst.setString(2, brand);
-        pst.setString(3, size);
-        pst.setDouble(4, price);
-        pst.setInt(5, quantity);
-        pst.executeUpdate();
-
-        JOptionPane.showMessageDialog(null, "Product added successfully!");
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
-    }
-
+    AddProductForm ap = new AddProductForm();
+    ap.setVisible(true);
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
