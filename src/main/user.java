@@ -10,6 +10,9 @@ import dashboard.adminDashboard;
 import main.user.*;
 import main.*;
 import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -73,9 +76,9 @@ public class user extends javax.swing.JFrame {
         jPanel11 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel12 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
+        Profile = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        Edit = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -161,9 +164,15 @@ public class user extends javax.swing.JFrame {
         jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+<<<<<<< HEAD
         jLabel12.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel12.setText("Edit Profile");
         jPanel12.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 110, 60));
+=======
+        Profile.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        Profile.setText("Edit Profile");
+        jPanel12.add(Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 90, 60));
+>>>>>>> 3c9c538b23ca95a8406662067baa0f12080bbdc9
 
         jPanel2.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 130, 60));
 
@@ -171,9 +180,14 @@ public class user extends javax.swing.JFrame {
         jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
-        jLabel11.setText("Edit Password");
-        jPanel10.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 130, 60));
+        Edit.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
+        Edit.setText("Edit Password");
+        Edit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                EditMouseClicked(evt);
+            }
+        });
+        jPanel10.add(Edit, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 130, 60));
 
         jPanel2.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 130, 60));
 
@@ -251,11 +265,70 @@ public class user extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
 
+<<<<<<< HEAD
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         PurchaseHistory ph = new PurchaseHistory();
         ph.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel8MouseClicked
+=======
+    private void EditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_EditMouseClicked
+                                  
+    try {
+        // Create a panel with grid layout
+        JPanel panel = new JPanel(new java.awt.GridLayout(0, 2, 5, 5));
+
+        // Current values from labels
+        String currentName = nm.getText().replace("Name: ", "");
+        String currentLastName = ln.getText().replace("Last Name: ", "");
+
+        // Create text fields with current values
+        JTextField nameField = new JTextField(currentName);
+        JTextField lastNameField = new JTextField(currentLastName);
+        JTextField passwordField = new JTextField(); // leave blank for new password
+
+        // Add labels and fields to panel
+        panel.add(new JLabel("First Name:"));
+        panel.add(nameField);
+        panel.add(new JLabel("Last Name:"));
+        panel.add(lastNameField);
+        panel.add(new JLabel("Password:"));
+        panel.add(passwordField);
+
+        // Show panel in a single dialog
+        int result = javax.swing.JOptionPane.showConfirmDialog(this, panel, 
+            "Edit Profile", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+
+        if (result == javax.swing.JOptionPane.OK_OPTION) {
+            // Update database
+            java.sql.Connection con = config.connectDB();
+            String sql = "UPDATE tble_user SET name = ?, lastname = ?, password = ? WHERE register_id = ?";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, nameField.getText());
+            pst.setString(2, lastNameField.getText());
+            pst.setString(3, passwordField.getText());
+            pst.setInt(4, config.loggedInAID);
+
+            int updated = pst.executeUpdate();
+            pst.close();
+            con.close();
+
+            if (updated > 0) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Profile updated successfully!");
+                displayUser(); // Refresh labels
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this, "Failed to update profile.");
+            }
+        }
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+
+
+    }//GEN-LAST:event_EditMouseClicked
+>>>>>>> 3c9c538b23ca95a8406662067baa0f12080bbdc9
 
     /**
      * @param args the command line arguments
@@ -296,10 +369,10 @@ public class user extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Edit;
+    private javax.swing.JLabel Profile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

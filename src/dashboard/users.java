@@ -8,7 +8,13 @@ package dashboard;
 import Config.config;
 import dashboard.adminDashboard;
 import java.awt.Color;
+import java.awt.GridLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import main.Login;
 
 /**
  *
@@ -16,10 +22,15 @@ import javax.swing.JOptionPane;
  */
 public class users extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LandingPage
-     */
+   
+     
     public users() {
+        if (!main.Session.isLoggedIn()) {
+        javax.swing.JOptionPane.showMessageDialog(null, "You need to login first!");
+        new main.Login().setVisible(true);
+        this.dispose();
+        return;
+    }
         initComponents();
         displayUser();
     }
@@ -28,6 +39,17 @@ public class users extends javax.swing.JFrame {
             String sql = "SELECT *FROM tble_user";
             con.displayData(sql,table);
         }
+     public void searchData() {
+    config con = new config();
+    String searchStr = jTextField1.getText();
+    
+    // We only use LIKE for name and lastname columns
+    String sql = "SELECT * FROM tble_user WHERE "
+               + "name LIKE '%" + searchStr + "%' OR "
+               + "lastname LIKE '%" + searchStr + "%'";
+    
+    con.displayData(sql, table);
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,14 +67,16 @@ public class users extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
+        jButton6 = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
         jPanel11 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jButton7 = new javax.swing.JButton();
         jPanel12 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
@@ -91,6 +115,15 @@ public class users extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(204, 204, 255));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton6.setText("Users");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel9.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
+
         jPanel5.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 130, 70));
 
         jPanel10.setBackground(new java.awt.Color(204, 204, 255));
@@ -109,18 +142,26 @@ public class users extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(204, 204, 255));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel5.setText("Home");
-        jPanel11.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jButton7.setText("Home");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        jPanel11.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, -1, -1));
 
         jPanel5.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 130, 80));
 
         jPanel12.setBackground(new java.awt.Color(204, 204, 255));
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jLabel1.setText("Settings");
-        jPanel12.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jButton5.setText("Logout");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel12.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
 
         jPanel5.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 130, 70));
 
@@ -132,6 +173,18 @@ public class users extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jLabel3.setText("DripHorizon");
         jPanel6.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField1KeyReleased(evt);
+            }
+        });
+        jPanel6.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 240, -1));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 470, 50));
 
@@ -183,36 +236,70 @@ public class users extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     try {
-        String name = JOptionPane.showInputDialog(this, "Enter First Name:");
-        if (name == null || name.isEmpty()) return;
+    try {
 
-        String lastname = JOptionPane.showInputDialog(this, "Enter Last Name:");
-        if (lastname == null || lastname.isEmpty()) return;
+    JTextField txtName = new JTextField();
+    JTextField txtLastname = new JTextField();
+    JTextField txtUsername = new JTextField();
+    JTextField txtPassword = new JTextField();
 
-        String username = JOptionPane.showInputDialog(this, "Enter Username:");
-        if (username == null || username.isEmpty()) return;
+    String[] roleOptions = {"Admin", "User"};
+    JComboBox<String> cbStatus = new JComboBox<>(roleOptions);
 
-        String password = JOptionPane.showInputDialog(this, "Enter Password:");
-        if (password == null || password.isEmpty()) return;
+    String[] acOptions = {"Active", "Inactive"};
+    JComboBox<String> cbAcstatus = new JComboBox<>(acOptions);
 
-        String status = JOptionPane.showInputDialog(this, "Enter Status (Admin/User):");
-        if (status == null || status.isEmpty()) return;
+    JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
 
-        String acstatus = "Active";
+    panel.add(new JLabel("First Name:"));
+    panel.add(txtName);
+
+    panel.add(new JLabel("Last Name:"));
+    panel.add(txtLastname);
+
+    panel.add(new JLabel("Username:"));
+    panel.add(txtUsername);
+
+    panel.add(new JLabel("Password:"));
+    panel.add(txtPassword);
+
+    panel.add(new JLabel("Status:"));
+    panel.add(cbStatus);
+
+    panel.add(new JLabel("Account Status:"));
+    panel.add(cbAcstatus);
+
+    int result = JOptionPane.showConfirmDialog(
+            this,
+            panel,
+            "Add New User",
+            JOptionPane.OK_CANCEL_OPTION,
+            JOptionPane.PLAIN_MESSAGE
+    );
+
+    if (result == JOptionPane.OK_OPTION) {
+
+        if (txtName.getText().isEmpty() ||
+            txtLastname.getText().isEmpty() ||
+            txtUsername.getText().isEmpty() ||
+            txtPassword.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "All fields are required!");
+            return;
+        }
 
         config con = new config();
-        String sql = "INSERT INTO tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
-
         java.sql.Connection connection = con.connectDB();
+
+        String sql = "INSERT INTO tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
         java.sql.PreparedStatement pst = connection.prepareStatement(sql);
 
-        pst.setString(1, name);
-        pst.setString(2, lastname);
-        pst.setString(3, username);
-        pst.setString(4, password);
-        pst.setString(5, status);
-        pst.setString(6, acstatus);
+        pst.setString(1, txtName.getText());
+        pst.setString(2, txtLastname.getText());
+        pst.setString(3, txtUsername.getText());
+        pst.setString(4, txtPassword.getText());
+        pst.setString(5, cbStatus.getSelectedItem().toString());
+        pst.setString(6, cbAcstatus.getSelectedItem().toString());
 
         pst.executeUpdate();
 
@@ -221,13 +308,12 @@ public class users extends javax.swing.JFrame {
         pst.close();
         connection.close();
 
-        displayUser(); // refresh table
+        displayUser();
+    }
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error adding user: " + e.getMessage());
-    
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error adding user: " + e.getMessage());
 }
-
        
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -275,24 +361,53 @@ public class users extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+int selectedRow = table.getSelectedRow();
 
+if (selectedRow == -1) {
+    JOptionPane.showMessageDialog(this, "Select user to update.");
+    return;
+}
 
-    int selectedRow = table.getSelectedRow();
+try {
+    int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
 
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Select user to update.");
-        return;
-    }
+    JTextField txtName = new JTextField(table.getValueAt(selectedRow, 1).toString());
+    JTextField txtLastname = new JTextField(table.getValueAt(selectedRow, 2).toString());
+    JTextField txtUsername = new JTextField(table.getValueAt(selectedRow, 3).toString());
+    JTextField txtPassword = new JTextField(table.getValueAt(selectedRow, 4).toString());
+    JTextField txtStatus = new JTextField(table.getValueAt(selectedRow, 5).toString());
+    JTextField txtAcstatus = new JTextField(table.getValueAt(selectedRow, 6).toString());
 
-    try {
-        int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+    JPanel panel = new JPanel();
+    panel.setLayout(new GridLayout(0, 2, 10, 10));
 
-        String name = JOptionPane.showInputDialog(this, "First Name:", table.getValueAt(selectedRow, 1));
-        String lastname = JOptionPane.showInputDialog(this, "Last Name:", table.getValueAt(selectedRow, 2));
-        String username = JOptionPane.showInputDialog(this, "Username:", table.getValueAt(selectedRow, 3));
-        String password = JOptionPane.showInputDialog(this, "Password:", table.getValueAt(selectedRow, 4));
-        String status = JOptionPane.showInputDialog(this, "Status:", table.getValueAt(selectedRow, 5));
-        String acstatus = JOptionPane.showInputDialog(this, "Account Status:", table.getValueAt(selectedRow, 6));
+    panel.add(new JLabel("First Name:"));
+    panel.add(txtName);
+
+    panel.add(new JLabel("Last Name:"));
+    panel.add(txtLastname);
+
+    panel.add(new JLabel("Username:"));
+    panel.add(txtUsername);
+
+    panel.add(new JLabel("Password:"));
+    panel.add(txtPassword);
+
+    panel.add(new JLabel("Status:"));
+    panel.add(txtStatus);
+
+    panel.add(new JLabel("Account Status:"));
+    panel.add(txtAcstatus);
+
+    int result = JOptionPane.showConfirmDialog(
+        this,
+        panel,
+        "Update User: " + table.getValueAt(selectedRow, 1),
+        JOptionPane.OK_CANCEL_OPTION,
+        JOptionPane.PLAIN_MESSAGE
+    );
+
+    if (result == JOptionPane.OK_OPTION) {
 
         config con = new config();
         java.sql.Connection connection = con.connectDB();
@@ -300,12 +415,12 @@ public class users extends javax.swing.JFrame {
         String sql = "UPDATE tble_user SET name=?, lastname=?, username=?, password=?, status=?, acstatus=? WHERE register_id=?";
         java.sql.PreparedStatement pst = connection.prepareStatement(sql);
 
-        pst.setString(1, name);
-        pst.setString(2, lastname);
-        pst.setString(3, username);
-        pst.setString(4, password);
-        pst.setString(5, status);
-        pst.setString(6, acstatus);
+        pst.setString(1, txtName.getText());
+        pst.setString(2, txtLastname.getText());
+        pst.setString(3, txtUsername.getText());
+        pst.setString(4, txtPassword.getText());
+        pst.setString(5, txtStatus.getText());
+        pst.setString(6, txtAcstatus.getText());
         pst.setInt(7, id);
 
         pst.executeUpdate();
@@ -316,12 +431,13 @@ public class users extends javax.swing.JFrame {
         connection.close();
 
         displayUser();
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error updating: " + e.getMessage());
     }
 
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error updating: " + e.getMessage());
+}
 
+   
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -329,6 +445,40 @@ public class users extends javax.swing.JFrame {
        cd.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        main.Session.logout();
+
+        // Notify the user
+        javax.swing.JOptionPane.showMessageDialog(null, "Logged out successfully.");
+
+        // Redirect to Login
+        Login lc = new Login();
+        lc.setVisible(true);
+
+        // Close the dashboard
+        this.dispose();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        users rd = new users();
+        rd.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        adminDashboard ad = new adminDashboard();
+        ad.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+      
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
+         searchData();
+    }//GEN-LAST:event_jTextField1KeyReleased
 
     /**
      * @param args the command line arguments
@@ -377,11 +527,12 @@ public class users extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -393,6 +544,7 @@ public class users extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

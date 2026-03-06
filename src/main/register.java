@@ -215,7 +215,12 @@ public class register extends javax.swing.JFrame {
              con.addRecord(sql, name.getText(), last.getText(), user.getText(), pass.getText(), "User", "Inactive");                          
 
              JOptionPane.showMessageDialog(null, "Record Added");
+              Login lc = new Login();
+              lc.setVisible(true);
+              this.dispose();
+
          }
+         
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered

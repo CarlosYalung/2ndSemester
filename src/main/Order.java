@@ -23,14 +23,7 @@ import javax.swing.table.DefaultTableModel;
 public class Order extends javax.swing.JFrame {
 
     public Order() {
-         if (!Session.isLoggedIn()) {
-        javax.swing.JOptionPane.showMessageDialog(this,
-                "You need to login first!");
-
-        new Login().setVisible(true);
-        this.dispose();
-        return;
-    }
+        
         initComponents();
         displayUser();
         loadOrderData();
