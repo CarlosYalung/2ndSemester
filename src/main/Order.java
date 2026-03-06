@@ -22,9 +22,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Order extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LandingPage
-     */
     public Order() {
          if (!Session.isLoggedIn()) {
         javax.swing.JOptionPane.showMessageDialog(this,

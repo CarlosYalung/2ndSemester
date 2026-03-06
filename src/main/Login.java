@@ -148,27 +148,46 @@ public class Login extends javax.swing.JFrame {
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
               
-        config con = new config();
-        String sql = "SELECT * FROM tble_user WHERE username = ? AND password = ? AND acstatus = ?";
-        String accountType = con.authenticate(sql, user.getText(), password.getText(), "Active");
+      config con = new config();
+    String sql = "SELECT * FROM tble_user WHERE username = ? AND password = ? AND acstatus = ?";
+    String accountType = con.authenticate(sql, user.getText(), password.getText(), "Active");
+    
+    if (accountType == null) {
+        JOptionPane.showMessageDialog(null, "Credentials might be Invalid, or Username/Password might be incorrect");
+    } else {
+        JOptionPane.showMessageDialog(null, "LOGIN SUCCESS");
         
+        // CRITICAL: Call Session.login() to set loggedIn = true
+        Session.login();
         
-            
-        if (accountType == null) {
-            JOptionPane.showMessageDialog(null, "Credentials might be Invalid, or Username/Password might be incorrect");
-        } else {
-            JOptionPane.showMessageDialog(null, "LOGIN SUCCESS");
-
-            if (accountType.equals("Admin")) {
-                adminDashboard ad = new adminDashboard();
-                ad.setVisible(true);
-                this.dispose();
-            } else if (accountType.equals("User")) {
-                UserDashboard ud = new UserDashboard();
-                ud.setVisible(true);
-                this.dispose();
+        // Also need to set config.loggedInAID for displayUser() to work
+        // If your config.authenticate() doesn't set this, you need to query it:
+        try {
+            java.sql.Connection cn = config.connectDB();
+            String idSql = "SELECT register_id FROM tble_user WHERE username = ?";
+            java.sql.PreparedStatement pst = cn.prepareStatement(idSql);
+            pst.setString(1, user.getText());
+            java.sql.ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                config.loggedInAID = rs.getInt("register_id");
             }
+            rs.close();
+            pst.close();
+            cn.close();
+        } catch (Exception e) {
+            System.out.println("Error getting user ID: " + e.getMessage());
         }
+
+        if (accountType.equals("Admin")) {
+            adminDashboard ad = new adminDashboard();
+            ad.setVisible(true);
+            this.dispose();
+        } else if (accountType.equals("User")) {
+            UserDashboard ud = new UserDashboard();  // Open UserDashboard first, NOT orderss
+            ud.setVisible(true);
+            this.dispose();
+        }
+    }
        
     }//GEN-LAST:event_jPanel3MouseClicked
 

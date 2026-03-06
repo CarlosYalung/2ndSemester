@@ -20,10 +20,23 @@ public class UserDashboard extends javax.swing.JFrame {
     /**
      * Creates new form LandingPage
      */
-    public UserDashboard() {
-        initComponents();
-        displayUser();
+   public UserDashboard() {
+    // Check login first
+    if (!Session.isLoggedIn()) {
+        javax.swing.JOptionPane.showMessageDialog(null,
+            "You need to login first!",
+            "DripHorizon - Login Required",
+            javax.swing.JOptionPane.WARNING_MESSAGE);
+
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
+        });
+        return;
     }
+    
+    initComponents();
+    displayUser();
+}
     
     void displayUser() {
     try {
@@ -236,7 +249,7 @@ public class UserDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel7MouseClicked
 
     private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        Order or = new Order();
+        orderss or = new orderss();
         or.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel13MouseClicked

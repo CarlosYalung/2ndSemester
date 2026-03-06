@@ -148,6 +148,11 @@ public class user extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel8.setText("Purchase History ");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
         jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 60));
 
         jPanel2.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 130, 60));
@@ -158,7 +163,7 @@ public class user extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel12.setText("Edit Profile");
-        jPanel12.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 90, 60));
+        jPanel12.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 110, 60));
 
         jPanel2.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 210, 130, 60));
 
@@ -245,6 +250,12 @@ public class user extends javax.swing.JFrame {
         ud.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        PurchaseHistory ph = new PurchaseHistory();
+        ph.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
