@@ -6,70 +6,149 @@
 package dashboard;
 
 import Config.config;
-import main.UserDashboard.*;
 import main.*;
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
 
 /**
  *
  * @author PC
  */
 public class Product extends javax.swing.JFrame {
-public Product() {
-     if (!main.Session.isLoggedIn()) {
-        javax.swing.JOptionPane.showMessageDialog(null, "Please login first!");
-        
-        // Open the Login page (Assuming your login class is named 'login' in package 'main')
-        Login lc = new Login(); 
-        lc.setVisible(true);
-        
-        // Close this dashboard immediately
-        this.dispose(); 
-        return; // Stop further execution of initComponents
-    }
-    initComponents(); // must be first
-    loadProductData(); // after GUI components are ready
-}
-public void loadProductData() {
-    DefaultTableModel model = new DefaultTableModel();
-    model.addColumn("Order ID");
-    model.addColumn("Product Name");
-    model.addColumn("Brand");
-    model.addColumn("Size");
-    model.addColumn("Price");
-    model.addColumn("Quantity");
-
-    try {
-        config con = new config();
-        Connection cn = con.connectDB();
-        String sql = "SELECT * FROM tble_order";
-        PreparedStatement pst = cn.prepareStatement(sql);
-        ResultSet rs = pst.executeQuery();
-
-        while (rs.next()) {
-            model.addRow(new Object[]{
-                rs.getInt("Order_id"),
-                rs.getString("PName"),
-                rs.getString("Brand"),
-                rs.getString("Size"),
-                rs.getDouble("Price"),
-                rs.getInt("Quantity")
-            });
+    
+    public Product() {
+        // Check login using config.loggedInAID
+        if (config.loggedInAID <= 0) {
+            JOptionPane.showMessageDialog(null, "Please login first!");
+            Login lc = new Login(); 
+            lc.setVisible(true);
+            this.dispose(); 
+            return;
         }
-
-        Table2.setModel(model); // ✅ Use the existing Table2
-
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error Loading Products: " + e.getMessage());
+        
+        initComponents();
+        loadBuyerData();
     }
-}
+    
+    /**
+     * Load buyer/purchase data from tble_buyers
+     */
+    public void loadBuyerData() {
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Buyer ID");
+        model.addColumn("Product Name");
+        model.addColumn("Price");
+        model.addColumn("Quantity");
 
- 
+        try {
+            config con = new config();
+            Connection cn = con.connectDB();
+            
+            String sql = "SELECT id_buyers, Pname, BPrice, quantitys FROM tble_buyers";
+            PreparedStatement pst = cn.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getInt("id_buyers"),
+                    rs.getString("Pname"),
+                    String.format("₱%.2f", rs.getDouble("BPrice")),
+                    rs.getInt("quantitys")
+                });
+            }
+
+            Table2.setModel(model);
+            rs.close();
+            pst.close();
+            cn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error Loading Buyer Data: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * Edit selected buyer's price and quantity
+     */
+    private void editSelectedBuyer() {
+        int selectedRow = Table2.getSelectedRow();
+        
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Please select a row to edit!", 
+                "No Selection", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Get values from selected row
+        int buyerId = Integer.parseInt(Table2.getValueAt(selectedRow, 0).toString());
+        String productName = Table2.getValueAt(selectedRow, 1).toString();
+        String currentPrice = Table2.getValueAt(selectedRow, 2).toString().replace("₱", "").replace(",", "");
+        String currentQty = Table2.getValueAt(selectedRow, 3).toString();
+        
+        // Create edit dialog
+        JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+        
+        JTextField priceField = new JTextField(currentPrice);
+        JTextField qtyField = new JTextField(currentQty);
+        
+        panel.add(new JLabel("Product:"));
+        panel.add(new JLabel(productName));
+        panel.add(new JLabel("New Price:"));
+        panel.add(priceField);
+        panel.add(new JLabel("New Quantity:"));
+        panel.add(qtyField);
+        
+        int result = JOptionPane.showConfirmDialog(this, panel, 
+            "Edit Buyer ID: " + buyerId, 
+            JOptionPane.OK_CANCEL_OPTION, 
+            JOptionPane.PLAIN_MESSAGE);
+        
+        if (result == JOptionPane.OK_OPTION) {
+            try {
+                double newPrice = Double.parseDouble(priceField.getText());
+                int newQty = Integer.parseInt(qtyField.getText());
+                
+                // Update database
+                config con = new config();
+                Connection cn = con.connectDB();
+                String sql = "UPDATE tble_buyers SET BPrice = ?, quantitys = ? WHERE id_buyers = ?";
+                PreparedStatement pst = cn.prepareStatement(sql);
+                pst.setDouble(1, newPrice);
+                pst.setInt(2, newQty);
+                pst.setInt(3, buyerId);
+                
+                int updated = pst.executeUpdate();
+                pst.close();
+                cn.close();
+                
+                if (updated > 0) {
+                    JOptionPane.showMessageDialog(this, "Updated successfully!");
+                    loadBuyerData(); // Refresh table
+                } else {
+                    JOptionPane.showMessageDialog(this, "Update failed!");
+                }
+                
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, 
+                    "Please enter valid numbers!", 
+                    "Invalid Input", 
+                    JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -99,6 +178,7 @@ public void loadProductData() {
         jScrollPane1 = new javax.swing.JScrollPane();
         Table2 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -143,7 +223,7 @@ public void loadProductData() {
         jPanel10.setBackground(new java.awt.Color(204, 204, 255));
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton2.setText("Product");
+        jButton2.setText("Buyers");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -198,20 +278,29 @@ public void loadProductData() {
                 {null, null, null, null}
             },
             new String [] {
-                "Name", "Lastame", "Username", "Status"
+                "Buyer ID", "Product Name", "Price", "Quantity"
             }
         ));
         jScrollPane1.setViewportView(Table2);
 
-        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, -1, 240));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 140, 430, 240));
 
-        jButton3.setText("Add Product");
+        jButton3.setText("Refresh");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 390, -1, 30));
+        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 390, 90, 30));
+
+        jButton4.setBackground(new java.awt.Color(255, 204, 0));
+        jButton4.setText("Edit Selected");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 390, 110, 30));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
@@ -226,23 +315,22 @@ public void loadProductData() {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-                                              
-    AddProductForm ap = new AddProductForm();
-    ap.setVisible(true);
-
+        loadBuyerData();
+        JOptionPane.showMessageDialog(this, "Data refreshed successfully!");
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        editSelectedBuyer();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        main.Session.logout();
-
-        // Notify the user
-        javax.swing.JOptionPane.showMessageDialog(null, "Logged out successfully.");
-
-        // Redirect to Login
+        config.loggedInAID = -1;
+        if (main.Session.isLoggedIn()) {
+            main.Session.logout();
+        }
+        JOptionPane.showMessageDialog(null, "Logged out successfully.");
         Login lc = new Login();
         lc.setVisible(true);
-
-        // Close the dashboard
         this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -262,11 +350,6 @@ public void loadProductData() {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -283,24 +366,7 @@ public void loadProductData() {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Product.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Product().setVisible(true);
@@ -313,6 +379,7 @@ public void loadProductData() {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel2;

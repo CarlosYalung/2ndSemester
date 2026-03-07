@@ -147,101 +147,62 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-              
-<<<<<<< HEAD
-      config con = new config();
-    String sql = "SELECT * FROM tble_user WHERE username = ? AND password = ? AND acstatus = ?";
-    String accountType = con.authenticate(sql, user.getText(), password.getText(), "Active");
-    
-    if (accountType == null) {
-        JOptionPane.showMessageDialog(null, "Credentials might be Invalid, or Username/Password might be incorrect");
-    } else {
-        JOptionPane.showMessageDialog(null, "LOGIN SUCCESS");
-        
-        // CRITICAL: Call Session.login() to set loggedIn = true
-        Session.login();
-        
-        // Also need to set config.loggedInAID for displayUser() to work
-        // If your config.authenticate() doesn't set this, you need to query it:
-        try {
-            java.sql.Connection cn = config.connectDB();
-            String idSql = "SELECT register_id FROM tble_user WHERE username = ?";
-            java.sql.PreparedStatement pst = cn.prepareStatement(idSql);
-            pst.setString(1, user.getText());
-            java.sql.ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                config.loggedInAID = rs.getInt("register_id");
+                                    
+    String usernameInput = user.getText().trim();
+    String passwordInput = password.getText().trim();
+
+    // Validation first
+    if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter both username and password!");
+        return;
+    }
+
+    try {
+        java.sql.Connection con = config.connectDB();
+        // Use consistent column names - adjust based on your actual database schema
+        String sql = "SELECT register_id, username, status, acstatus FROM tble_user WHERE username = ? AND password = ? AND acstatus = ?";
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, usernameInput);
+        pst.setString(2, passwordInput);
+        pst.setString(3, "Active");
+
+        java.sql.ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            int userID = rs.getInt("register_id");
+            String status = rs.getString("status");
+
+            // Set session data
+            Session.login();
+            config.loggedInAID = userID;
+
+            JOptionPane.showMessageDialog(this, "LOGIN SUCCESS!");
+
+            // Role-based redirection
+            if (status.equalsIgnoreCase("admin")) {
+                new dashboard.adminDashboard().setVisible(true);
+            } else {
+                new main.UserDashboard().setVisible(true);
             }
-            rs.close();
-            pst.close();
-            cn.close();
-        } catch (Exception e) {
-            System.out.println("Error getting user ID: " + e.getMessage());
-        }
 
-        if (accountType.equals("Admin")) {
-            adminDashboard ad = new adminDashboard();
-            ad.setVisible(true);
-            this.dispose();
-        } else if (accountType.equals("User")) {
-            UserDashboard ud = new UserDashboard();  // Open UserDashboard first, NOT orderss
-            ud.setVisible(true);
-            this.dispose();
-        }
-    }
-       
-=======
-     String usernameInput = user.getText().trim();
-String passwordInput = password.getText().trim();
+            this.dispose(); // Close login window
 
-if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Please enter both username and password!");
-    return;
-}
-
-try {
-    // Connect to database
-    java.sql.Connection con = config.connectDB();
-    String sql = "SELECT register_id, username, status, acstatus FROM tble_user WHERE username = ? AND password = ? AND acstatus = ?";
-    java.sql.PreparedStatement pst = con.prepareStatement(sql);
-    pst.setString(1, usernameInput);
-    pst.setString(2, passwordInput);
-    pst.setString(3, "Active");  // ✅ Only allow active accounts
-
-    java.sql.ResultSet rs = pst.executeQuery();
-
-    if (rs.next()) {
-        int userID = rs.getInt("register_id");
-        String status = rs.getString("status");
-
-        // --- Mark session as logged in ---
-        Session.login();
-        config.loggedInAID = userID;
-
-        JOptionPane.showMessageDialog(this, "LOGIN SUCCESS!");
-
-        // --- Role-based redirection ---
-        if (status.equalsIgnoreCase("admin")) {
-            new dashboard.adminDashboard().setVisible(true);
         } else {
-            new main.UserDashboard().setVisible(true);
+            JOptionPane.showMessageDialog(this, "Invalid credentials or account is not Active!");
         }
 
-        this.dispose();  // Close login window
+        // Clean up resources
+        rs.close();
+        pst.close();
+        con.close();
 
-    } else {
-        JOptionPane.showMessageDialog(this, "Invalid credentials or your account is not Active!");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
+        e.printStackTrace(); // For debugging
     }
 
-    // Close resources
-    rs.close();
-    pst.close();
-    con.close();
+      
 
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
-}
->>>>>>> 3c9c538b23ca95a8406662067baa0f12080bbdc9
     }//GEN-LAST:event_jPanel3MouseClicked
 
     private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered

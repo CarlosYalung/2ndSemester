@@ -17,9 +17,9 @@ public class PurchaseHistory extends javax.swing.JFrame {
     /**
      * Creates new form PurchaseHistory
      */
-    public PurchaseHistory() {
-        // Check login first
-        if (!Session.isLoggedIn()) {
+       public PurchaseHistory() {
+        // Check login using config.loggedInAID (same as user.java)
+        if (config.loggedInAID <= 0) {
             JOptionPane.showMessageDialog(null,
                 "You need to login first!",
                 "DripHorizon - Login Required",
@@ -28,6 +28,9 @@ public class PurchaseHistory extends javax.swing.JFrame {
             java.awt.EventQueue.invokeLater(() -> {
                 new Login().setVisible(true);
             });
+            
+            // Close this window since login failed
+            this.dispose();
             return;
         }
         
