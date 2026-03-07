@@ -3,31 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/Config/config.java</file>
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/Order.java</file>
             <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/LandingPage.java</file>
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/user.java</file>
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/UserDashboard.java</file>
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/register.java</file>
             <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/orderss.java</file>
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/Login.java</file>
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/Session.java</file>
-            <file>file:/C:/Users/PC/Videos/2ndSemester/src/main/PurchaseHistory.java</file>
-=======
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/dashboard/AddProductForm.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/main/Order.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/main/UserDashboard.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/dashboard/adminDashboard.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/main/Session.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/main/register.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/main/user.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/main/Login.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/main/LandingPage.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/Config/config.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/dashboard/Product.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/DripHorizon/2ndSemester/src/dashboard/users.java</file>
->>>>>>> 3c9c538b23ca95a8406662067baa0f12080bbdc9
         </group>
     </open-files>
 </project-private>
