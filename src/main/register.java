@@ -35,8 +35,6 @@ public class register extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         user = new javax.swing.JTextField();
@@ -49,6 +47,7 @@ public class register extends javax.swing.JFrame {
         last = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -57,35 +56,16 @@ public class register extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(0, 102, 102));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("DripHorizon");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 40, -1, -1));
 
         jPanel5.setBackground(new java.awt.Color(153, 51, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel3.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel3MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel3MouseExited(evt);
-            }
-        });
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setText("       Login");
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 40));
-
-        jPanel5.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 390, 70, 40));
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -105,7 +85,7 @@ public class register extends javax.swing.JFrame {
         jLabel5.setText("     Register");
         jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 40));
 
-        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, 70, 40));
+        jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 390, 70, 40));
 
         user.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         user.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -130,8 +110,8 @@ public class register extends javax.swing.JFrame {
         jPanel5.add(pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, 220, 30));
 
         jLabel6.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
-        jLabel6.setText("Username:");
-        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
+        jLabel6.setText("Gmail:");
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 230, -1, -1));
 
         jLabel8.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
         jLabel8.setText("Password:");
@@ -167,33 +147,26 @@ public class register extends javax.swing.JFrame {
         jLabel11.setText("                    Please fill out the form to complete");
         jPanel5.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 340, -1));
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 350, 490));
+        jLabel1.setText("I already have an account");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        jPanel5.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 430, 140, 40));
+
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 350, 510));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 350, 350));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 360, 350));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 510));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 510));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 500));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
-          Login ifm = new Login();
-       ifm.setVisible(true);
-       this.dispose();
-      
-    }//GEN-LAST:event_jPanel3MouseClicked
-
-    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
-        jPanel3.setBackground(new Color(102,102,255));
-    }//GEN-LAST:event_jPanel3MouseEntered
-
-    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
-        jPanel3.setBackground(new Color(153,153,255));
-    }//GEN-LAST:event_jPanel3MouseExited
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
          if(name.getText().isEmpty() || last.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty()){
@@ -202,23 +175,23 @@ public class register extends javax.swing.JFrame {
              config con = new config();
 
             
-             String sql = "SELECT * FROM tble_user WHERE username = ?";
+             String sql = "SELECT * FROM tble_user WHERE gmail = ?";
              String unVal = con.unValidation(sql, last.getText()); 
 
              if (unVal != null) {
-                 JOptionPane.showMessageDialog(null, "USERNAME IS ALREADY USED, TRY ANOTHER!");
+                 JOptionPane.showMessageDialog(null, "GMAIL IS ALREADY USED, TRY ANOTHER!");
                  return;
              }
 
              
-             sql = "INSERT INTO Tble_user (name, lastname, username, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
-             con.addRecord(sql, name.getText(), last.getText(), user.getText(), pass.getText(), "User", "Inactive");                          
+             sql = "INSERT INTO Tble_user (name, lastname, gmail, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
+             con.addRecord(sql, user.getText(), name.getText(), last.getText(), pass.getText(), "User", "Inactive");                          
 
              JOptionPane.showMessageDialog(null, "Record Added");
               Login lc = new Login();
               lc.setVisible(true);
               this.dispose();
-
+      
          }
          
     }//GEN-LAST:event_jPanel4MouseClicked
@@ -246,6 +219,12 @@ public class register extends javax.swing.JFrame {
     private void passActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passActionPerformed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        Login ifm = new Login();
+        ifm.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -302,7 +281,6 @@ public class register extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField last;

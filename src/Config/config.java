@@ -101,23 +101,39 @@ public void displayData(String sql, javax.swing.JTable table) {
 
 
     public String unValidation(String sql, Object... values) {
-        try (Connection conn = connectDB();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    try (Connection conn = connectDB();
+         PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            for (int i = 0; i < values.length; i++) {
-                pstmt.setObject(i + 1, values[i]);
-            }
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("username");
-                }
-            }
-        } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+        for (int i = 0; i < values.length; i++) {
+            pstmt.setObject(i + 1, values[i]);
         }
+
+        try (ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                // CHANGE THIS LINE:
+                return rs.getString("gmail"); // It was "username" before
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error: " + e.getMessage());
+    }
+    return null;
+}
+
+public ResultSet getData(String sql, Object... values) {
+    try {
+        Connection conn = connectDB();
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        
+        for (int i = 0; i < values.length; i++) {
+            pstmt.setObject(i + 1, values[i]);
+        }
+        
+        return pstmt.executeQuery();
+    } catch (SQLException e) {
+        System.out.println("Error fetching data: " + e.getMessage());
         return null;
     }
-
+}
 
 }

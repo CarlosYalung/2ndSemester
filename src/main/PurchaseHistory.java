@@ -1,10 +1,14 @@
-package main;
+    package main;
 
 import Config.config;
+import java.awt.Image;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,92 +40,90 @@ public class PurchaseHistory extends javax.swing.JFrame {
         
         initComponents();
         loadPurchaseHistory(); // Load data on startup
-        displayUserName(); // Show user name in header
+         // Show user name in header
+        displayUser();
+        loadProfilePicture();
     }
     
     /**
      * Load purchase history from tble_buyer for current user
      * Columns: Product, Quantity, Total Price, Shipping, Payment, Date
      */
-    private void loadPurchaseHistory() {
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0); // Clear existing data
-        
-        // Set column headers (6 columns - no buyer_id)
-        model.setColumnIdentifiers(new String[] {
-            "Product", 
-            "Quantity", 
-            "Total Price", 
-            "Shipping", 
-            "Payment", 
-            "Date"
-        });
-        
-        String sql = "SELECT product, quantity, total_price, " +
-                    "shipping_method, payment_method, purchase_date " +
-                    "FROM tble_buyer WHERE user_id = ? ORDER BY purchase_date DESC";
-        
-        config con = new config();
-        
-        try (Connection cn = con.connectDB();
-             PreparedStatement pst = cn.prepareStatement(sql)) {
-            
-            pst.setInt(1, config.loggedInAID); // Current logged in user ID
-            
-            try (ResultSet rs = pst.executeQuery()) {
-                while (rs.next()) {
-                    model.addRow(new Object[]{
-                        rs.getString("product"),           // Product name
-                        rs.getInt("quantity"),              // Quantity
-                        String.format("₱%.2f", rs.getDouble("total_price")), // Total Price
-                        rs.getString("shipping_method"),    // Shipping
-                        rs.getString("payment_method"),     // Payment
-                        rs.getString("purchase_date")      // Date
-                    });
-                }
-            }
-            
-            // Show message if no purchases found
-            if (model.getRowCount() == 0) {
-                JOptionPane.showMessageDialog(this, 
-                    "No purchase history found.", 
-                    "Purchase History", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            }
-            
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, 
-                "Error loading purchase history: " + e.getMessage(), 
-                "Database Error", 
-                JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        }
-    }
+   private void loadPurchaseHistory() {
+    DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+    model.setRowCount(0); 
     
-    /**
-     * Display current user name in header
-     */
-    private void displayUserName() {
+    // The 8th column is "Status"
+    model.setColumnIdentifiers(new String[] {
+        "Product", "Quantity", "Total Price", "Shipping", "Payment", "Date", "IdGenerate", "Status"
+    });
+    
+    // We select 'status' and DO NOT filter out 'Refunded' so it stays visible
+    String sql = "SELECT product, quantity, total_price, " +
+                "shipping_method, payment_method, purchase_date, id_generate, status " + 
+                "FROM tble_buyer WHERE user_id = ? " +
+                "ORDER BY purchase_date DESC";
+    
+    config con = new config();
+    
+    try (Connection cn = con.connectDB();
+         PreparedStatement pst = cn.prepareStatement(sql)) {
+        
+        pst.setInt(1, config.loggedInAID); 
+        
+        try (ResultSet rs = pst.executeQuery()) {
+            while (rs.next()) {
+                // Fetch the status. If it's null/empty, show "Paid"
+                String dbStatus = rs.getString("status");
+                String displayStatus = (dbStatus == null || dbStatus.isEmpty()) ? "Paid" : dbStatus;
+
+                model.addRow(new Object[]{
+                    rs.getString("product"),
+                    rs.getInt("quantity"),
+                    String.format("₱%.2f", rs.getDouble("total_price")),
+                    rs.getString("shipping_method"),
+                    rs.getString("payment_method"),
+                    rs.getString("purchase_date"),
+                    rs.getString("id_generate"),
+                    displayStatus // This will show "Refunded" once the Admin approves
+                });
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
+    }
+}
+   
+    
+    void displayUser(){
         try {
             java.sql.Connection con = config.connectDB();
-            String sql = "SELECT name FROM tble_user WHERE register_id = ?";
+            String sql = "SELECT name, lastname,gmail FROM tble_user WHERE register_id = ?";
             java.sql.PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, config.loggedInAID);
+
             java.sql.ResultSet rs = pst.executeQuery();
-            
+
             if (rs.next()) {
-                String fullName = rs.getString("name");
-                String firstName = fullName.split(" ")[0];
-                Name.setText("Welcome, " + firstName);
+                nm.setText("" + rs.getString("name"));
+                ln.setText("" + rs.getString("lastname"));
+               user.setText("" + rs.getString("gmail"));
             }
-            
+
             rs.close();
             pst.close();
             con.close();
+
         } catch (Exception e) {
-            System.err.println("Error loading user name: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(null, e);
         }
+        
     }
+    
+    
+    
+    
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,17 +135,54 @@ public class PurchaseHistory extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        Name = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        ln = new javax.swing.JLabel();
+        nm = new javax.swing.JLabel();
+        user = new javax.swing.JLabel();
+        Profile = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        Security = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        Edit1 = new javax.swing.JLabel();
+        jPanel14 = new javax.swing.JPanel();
+        Edit3 = new javax.swing.JLabel();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(67, 80, 91));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Microsoft PhagsPa", 1, 14)); // NOI18N
+        jLabel2.setText("Purchase History");
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, 30));
 
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -158,35 +197,365 @@ public class PurchaseHistory extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable2);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 320, 130));
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 490, 270));
 
-        Name.setForeground(new java.awt.Color(255, 255, 255));
-        Name.setText("   ");
-        jPanel1.add(Name, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 100, 40));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 490, 430));
 
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel5.setBackground(new java.awt.Color(49, 87, 126));
+        jPanel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Back");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/user.png"))); // NOI18N
+        jPanel5.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
+
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel6.add(ln, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 70, 20));
+        jPanel6.add(nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 80, 70, 20));
+        jPanel6.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 180, 30));
+
+        Profile.setFont(new java.awt.Font("Microsoft PhagsPa", 1, 10)); // NOI18N
+        Profile.setText("Change Profile");
+        Profile.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                ProfileMouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jPanel6.add(Profile, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 60, 80, 20));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 20, 100, 60));
+        jPanel5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 200, 150));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 300));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 200, 240));
+
+        jPanel4.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel10.setFont(new java.awt.Font("Microsoft PhagsPa", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("Driphorizon");
+        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 20, -1, 60));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo).png"))); // NOI18N
+        jPanel4.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(-190, 0, 330, 150));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 90));
+
+        jPanel7.setBackground(new java.awt.Color(153, 153, 153));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel10.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel10.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
+        jPanel10.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 60));
+
+        jLabel11.setFont(new java.awt.Font("Yu Gothic Medium", 1, 12)); // NOI18N
+        jLabel11.setText("                 Sign Out");
+        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel11MouseClicked(evt);
+            }
+        });
+        jPanel10.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 60));
+
+        jPanel7.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 160, 60));
+
+        jPanel12.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logout.png"))); // NOI18N
+        jPanel12.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 60));
+
+        jLabel8.setFont(new java.awt.Font("Yu Gothic Medium", 1, 12)); // NOI18N
+        jLabel8.setText("          Return");
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+        jPanel12.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 130, 60));
+
+        jPanel7.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 160, 60));
+
+        jPanel11.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Security.setFont(new java.awt.Font("Yu Gothic Medium", 1, 12)); // NOI18N
+        Security.setText("      Security Settings");
+        Security.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SecurityMouseClicked(evt);
+            }
+        });
+        jPanel11.add(Security, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 60));
+
+        jPanel7.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 160, 60));
+
+        jPanel13.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel13.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Edit1.setFont(new java.awt.Font("Yu Gothic Medium", 1, 12)); // NOI18N
+        Edit1.setText("      Help & Support");
+        Edit1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Edit1MouseClicked(evt);
+            }
+        });
+        jPanel13.add(Edit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 60));
+
+        jPanel7.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 160, 60));
+
+        jPanel14.setBackground(new java.awt.Color(153, 153, 255));
+        jPanel14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Edit3.setFont(new java.awt.Font("Yu Gothic Medium", 1, 12)); // NOI18N
+        Edit3.setText("   Change Profile Name");
+        Edit3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Edit3MouseClicked(evt);
+            }
+        });
+        jPanel14.add(Edit3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 160, 60));
+
+        jPanel7.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 160, 60));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 210, 470));
+
+        jPanel16.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel16.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel22.setFont(new java.awt.Font("Microsoft PhagsPa", 1, 12)); // NOI18N
+        jLabel22.setText("© 2026 DripHorizon. All rights");
+        jPanel16.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 170, 40));
+
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/soft-gradient-blue-green-background-vector-55526497.jpg"))); // NOI18N
+        jPanel16.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 400, 80));
+
+        jPanel1.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 400, 80));
+
+        jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel24.setFont(new java.awt.Font("Microsoft PhagsPa", 1, 12)); // NOI18N
+        jLabel24.setText("reserved. Experience the drip in every step.");
+        jPanel17.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, -1, 40));
+
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/soft-gradient-blue-green-background-vector-55526497.jpg"))); // NOI18N
+        jPanel17.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 80));
+
+        jPanel1.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 560, 350, 80));
+
+        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/soft-gradient-blue-green-background-vector-55526497.jpg"))); // NOI18N
+        jPanel18.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 210, 80));
+
+        jPanel1.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 560, 210, 80));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 640));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-       UserDashboard ud = new UserDashboard();
+    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
+
+        Session.logout();
+        javax.swing.JOptionPane.showMessageDialog(null, "Logged out successfully.");
+        LandingPage landing = new LandingPage();
+        landing.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel11MouseClicked
+
+    private void Edit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Edit1MouseClicked
+        Contact c = new Contact();
+        c.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_Edit1MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        orderss ud = new orderss();
         ud.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_jLabel8MouseClicked
 
+    private void ProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ProfileMouseClicked
+        JFileChooser chooser = new JFileChooser();
+    int result = chooser.showOpenDialog(this);
+
+    if(result == JFileChooser.APPROVE_OPTION){
+        File file = chooser.getSelectedFile();
+        String path = file.getAbsolutePath();
+
+        // Show image in jLabel6
+        ImageIcon icon = new ImageIcon(path);
+        Image img = icon.getImage().getScaledInstance(
+                jLabel6.getWidth(),
+                jLabel6.getHeight(),
+                Image.SCALE_SMOOTH);
+        jLabel6.setIcon(new ImageIcon(img));
+
+        // Save path in database
+        try{
+            Connection con = config.connectDB();
+            String sql = "UPDATE tble_user SET profile_picture = ? WHERE register_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, path);
+            pst.setInt(2, config.loggedInAID);
+
+            pst.executeUpdate();
+            pst.close();
+            con.close();
+
+            JOptionPane.showMessageDialog(this,"Profile picture updated!");
+        } catch(Exception e){
+            JOptionPane.showMessageDialog(this,e);
+        }
+    }
+    }//GEN-LAST:event_ProfileMouseClicked
+
+    private void SecurityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SecurityMouseClicked
+      javax.swing.JPasswordField passField = new javax.swing.JPasswordField();
+    javax.swing.JPasswordField confirmField = new javax.swing.JPasswordField();
+
+    javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0,1,5,5));
+    panel.add(new javax.swing.JLabel("Change your password:"));
+    panel.add(new javax.swing.JLabel("New Password:"));
+    panel.add(passField);
+    panel.add(new javax.swing.JLabel("Confirm Password:"));
+    panel.add(confirmField);
+
+    int result = javax.swing.JOptionPane.showConfirmDialog(
+            null,
+            panel,
+            "Security Settings",
+            javax.swing.JOptionPane.OK_CANCEL_OPTION,
+            javax.swing.JOptionPane.PLAIN_MESSAGE
+    );
+
+    if(result == javax.swing.JOptionPane.OK_OPTION){
+        String password = new String(passField.getPassword());
+        String confirm = new String(confirmField.getPassword());
+
+        if(password.isEmpty() || confirm.isEmpty()){
+            javax.swing.JOptionPane.showMessageDialog(this,"Please fill all fields!");
+            return;
+        }
+
+        if(!password.equals(confirm)){
+            javax.swing.JOptionPane.showMessageDialog(this,"Passwords do not match!");
+            return;
+        }
+
+        try{
+            java.sql.Connection con = config.connectDB();
+            String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, password);
+            pst.setInt(2, config.loggedInAID);
+
+            pst.executeUpdate();
+            javax.swing.JOptionPane.showMessageDialog(this,"Password updated successfully!");
+
+            pst.close();
+            con.close();
+        }catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(this,e);
+        }
+    }
+    }//GEN-LAST:event_SecurityMouseClicked
+
+    private void Edit3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Edit3MouseClicked
+      javax.swing.JTextField fname = new javax.swing.JTextField();
+    javax.swing.JTextField lname = new javax.swing.JTextField();
+
+    javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0,1,5,5));
+    panel.add(new javax.swing.JLabel("Edit your profile name"));
+    panel.add(new javax.swing.JLabel("First Name:"));
+    panel.add(fname);
+    panel.add(new javax.swing.JLabel("Last Name:"));
+    panel.add(lname);
+
+    int result = javax.swing.JOptionPane.showConfirmDialog(
+            null,
+            panel,
+            "Edit Profile",
+            javax.swing.JOptionPane.OK_CANCEL_OPTION,
+            javax.swing.JOptionPane.PLAIN_MESSAGE
+    );
+
+    if(result == javax.swing.JOptionPane.OK_OPTION){
+
+        String newFname = fname.getText().trim();
+        String newLname = lname.getText().trim();
+
+        if(newFname.isEmpty() || newLname.isEmpty()){
+            javax.swing.JOptionPane.showMessageDialog(this,"Please fill all fields!");
+            return;
+        }
+
+        try{
+            java.sql.Connection con = config.connectDB();
+            String sql = "UPDATE tble_user SET name=?, lastname=? WHERE register_id=?";
+            java.sql.PreparedStatement pst = con.prepareStatement(sql);
+
+            pst.setString(1, newFname);
+            pst.setString(2, newLname);
+            pst.setInt(3, config.loggedInAID);
+
+            pst.executeUpdate();
+
+            javax.swing.JOptionPane.showMessageDialog(this,"Profile updated successfully!");
+
+            pst.close();
+            con.close();
+
+            // Refresh labels on screen
+            nm.setText(newFname);
+            ln.setText(newLname);
+
+            // Call profile refresh
+            displayUser();
+
+        }catch(Exception e){
+            javax.swing.JOptionPane.showMessageDialog(this,e);
+        }
+    }
+    }//GEN-LAST:event_Edit3MouseClicked
+private void loadProfilePicture() {
+    try {
+        Connection con = config.connectDB();
+        String sql = "SELECT profile_picture FROM tble_user WHERE register_id = ?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setInt(1, config.loggedInAID);
+        ResultSet rs = pst.executeQuery();
+
+        if(rs.next()){
+            String imgPath = rs.getString("profile_picture");
+            if(imgPath != null && !imgPath.isEmpty()){
+                ImageIcon icon = new ImageIcon(imgPath);
+                Image img = icon.getImage().getScaledInstance(
+                        jLabel6.getWidth(),
+                        jLabel6.getHeight(),
+                        Image.SCALE_SMOOTH);
+                jLabel6.setIcon(new ImageIcon(img));
+            }
+        }
+
+        rs.close();
+        pst.close();
+        con.close();
+    } catch(Exception e){
+        JOptionPane.showMessageDialog(this, e);
+    }
+}
     /**
      * @param args the command line arguments
      */
@@ -223,11 +592,41 @@ public class PurchaseHistory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Name;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel Edit1;
+    private javax.swing.JLabel Edit3;
+    private javax.swing.JLabel Profile;
+    private javax.swing.JLabel Security;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JLabel ln;
+    private javax.swing.JLabel nm;
+    private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }

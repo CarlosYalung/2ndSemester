@@ -2,7 +2,7 @@
 package main;
 
 import Config.config;
-import dashboard.adminDashboard;
+import dashboard.Admin;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -215,9 +215,12 @@ private double total = 0.0;
         jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         Jtable = new javax.swing.JTable();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -278,17 +281,14 @@ private double total = 0.0;
         jLabel103 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
+        jPanel18 = new javax.swing.JPanel();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nm = new javax.swing.JLabel();
-        jPanel18 = new javax.swing.JPanel();
-        jPanel22 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel23 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -307,7 +307,7 @@ private double total = 0.0;
         receiptText.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jtime.setForeground(new java.awt.Color(255, 255, 255));
-        receiptText.add(jtime, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 130, 70));
+        receiptText.add(jtime, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 80, 70));
 
         jdates.setForeground(new java.awt.Color(255, 255, 255));
         receiptText.add(jdates, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 0, 140, 70));
@@ -355,6 +355,36 @@ private double total = 0.0;
 
         jPanel5.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 220, 90));
 
+        jPanel19.setBackground(new java.awt.Color(75, 108, 108));
+        jPanel19.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("        Reset");
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
+        jPanel19.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 40));
+
+        jPanel5.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 580, -1, 40));
+
+        jPanel23.setBackground(new java.awt.Color(75, 108, 108));
+        jPanel23.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("        Receipt");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+        jPanel23.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 40));
+
+        jPanel5.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 580, -1, 40));
+
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 0, 270, 630));
 
         jPanel16.setBackground(new java.awt.Color(204, 204, 255));
@@ -363,9 +393,6 @@ private double total = 0.0;
         jPanel3.setBackground(new java.awt.Color(67, 80, 91));
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel3.setText("Main Menu");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
         jPanel6.setBackground(new java.awt.Color(61, 61, 61));
         jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -412,7 +439,7 @@ private double total = 0.0;
         jLabel70.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/01.jpg"))); // NOI18N
         jPanel6.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 90));
 
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 170, 210));
+        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 170, 210));
 
         jPanel7.setBackground(new java.awt.Color(61, 61, 61));
         jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -442,8 +469,8 @@ private double total = 0.0;
         prices1.setText("8,895");
         jPanel7.add(prices1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
-        jLabel75.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/01.jpg"))); // NOI18N
-        jPanel7.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 90));
+        jLabel75.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/NIKE+ZOOM+VOMERO+5.jpg"))); // NOI18N
+        jPanel7.add(jLabel75, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 90));
 
         jPanel12.setBackground(new java.awt.Color(58, 175, 253));
         jPanel12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -460,7 +487,7 @@ private double total = 0.0;
 
         jPanel7.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
-        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 170, 210));
+        jPanel3.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 90, 170, 210));
 
         jPanel11.setBackground(new java.awt.Color(61, 61, 61));
         jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -489,8 +516,8 @@ private double total = 0.0;
         prices2.setText("6,395");
         jPanel11.add(prices2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
-        jLabel82.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/01.jpg"))); // NOI18N
-        jPanel11.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 90));
+        jLabel82.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AIR+JORDAN+1+LOW.jpg"))); // NOI18N
+        jPanel11.add(jLabel82, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 90));
 
         jPanel9.setBackground(new java.awt.Color(58, 175, 253));
         jPanel9.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -507,7 +534,7 @@ private double total = 0.0;
 
         jPanel11.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
-        jPanel3.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 30, 170, 210));
+        jPanel3.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 170, 210));
 
         jPanel13.setBackground(new java.awt.Color(61, 61, 61));
         jPanel13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -530,13 +557,13 @@ private double total = 0.0;
 
         name3.setForeground(new java.awt.Color(255, 255, 255));
         name3.setText("Adidas Samba OG");
-        jPanel13.add(name3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 100, -1, -1));
+        jPanel13.add(name3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 100, 90, -1));
 
         prices3.setForeground(new java.awt.Color(59, 177, 59));
         prices3.setText("6,800");
         jPanel13.add(prices3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
-        jLabel89.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/01.jpg"))); // NOI18N
+        jLabel89.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Samba_OG_Shoes_Black_B75807_db07_standard.tiff.jpg"))); // NOI18N
         jPanel13.add(jLabel89, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 90));
 
         jPanel8.setBackground(new java.awt.Color(58, 175, 253));
@@ -554,7 +581,7 @@ private double total = 0.0;
 
         jPanel13.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
-        jPanel3.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 170, 210));
+        jPanel3.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 170, 210));
 
         jPanel15.setBackground(new java.awt.Color(61, 61, 61));
         jPanel15.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -574,7 +601,7 @@ private double total = 0.0;
         jPanel15.add(jLabel93, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 50, 20));
 
         jSpinner13.setModel(new javax.swing.SpinnerNumberModel(0, 0, 40, 1));
-        jPanel15.add(jSpinner13, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 50, -1));
+        jPanel15.add(jSpinner13, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 140, 50, -1));
 
         name4.setForeground(new java.awt.Color(255, 255, 255));
         name4.setText("New Balance 530");
@@ -584,7 +611,7 @@ private double total = 0.0;
         prices4.setText("5,995");
         jPanel15.add(prices4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
-        jLabel96.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/01.jpg"))); // NOI18N
+        jLabel96.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/NEW-BALANCE-530-WHITE-SILVER-NAVY-MR530SG-1_1200x1200.jpg"))); // NOI18N
         jPanel15.add(jLabel96, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 90));
 
         jPanel4.setBackground(new java.awt.Color(58, 175, 253));
@@ -602,7 +629,7 @@ private double total = 0.0;
 
         jPanel15.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
-        jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 170, 210));
+        jPanel3.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, 170, 210));
 
         jPanel17.setBackground(new java.awt.Color(61, 61, 61));
         jPanel17.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -631,7 +658,7 @@ private double total = 0.0;
         prices5.setText("5,500");
         jPanel17.add(prices5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
 
-        jLabel103.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/01.jpg"))); // NOI18N
+        jLabel103.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Speedcat-Archive-Sneakers-Unisex.jpg"))); // NOI18N
         jPanel17.add(jLabel103, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 150, 90));
 
         jPanel10.setBackground(new java.awt.Color(58, 175, 253));
@@ -649,9 +676,26 @@ private double total = 0.0;
 
         jPanel17.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, -1, -1));
 
-        jPanel3.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 250, 170, 210));
+        jPanel3.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 340, 170, 210));
 
-        jPanel16.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 680, 500));
+        jPanel18.setBackground(new java.awt.Color(75, 108, 108));
+        jPanel18.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel22.setBackground(new java.awt.Color(50, 83, 84));
+        jPanel22.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jPanel22.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Main Menu");
+        jPanel22.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 20, -1, -1));
+
+        jPanel18.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 680, 60));
+
+        jPanel3.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 70));
+
+        jPanel16.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 680, 570));
 
         jPanel2.setBackground(new java.awt.Color(61, 61, 61));
         jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -663,44 +707,14 @@ private double total = 0.0;
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 0, -1, 60));
 
         nm.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.add(nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 50, 20));
-
-        jPanel16.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 60));
-
-        jPanel18.setBackground(new java.awt.Color(75, 108, 108));
-        jPanel18.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel22.setBackground(new java.awt.Color(50, 83, 84));
-        jPanel22.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        jPanel22.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel19.setBackground(new java.awt.Color(75, 108, 108));
-        jPanel19.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("        Reset");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
-            }
-        });
-        jPanel19.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 40));
-
-        jPanel22.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 80, 40));
-
-        jPanel20.setBackground(new java.awt.Color(75, 108, 108));
-        jPanel20.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel22.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 40));
+        jPanel2.add(nm, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 50, 20));
 
         jPanel21.setBackground(new java.awt.Color(75, 108, 108));
         jPanel21.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel21.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("          Back");
+        jLabel5.setText("        Profile");
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel5MouseClicked(evt);
@@ -708,16 +722,9 @@ private double total = 0.0;
         });
         jPanel21.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 80, 40));
 
-        jPanel22.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 80, 40));
+        jPanel2.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 10, -1, 40));
 
-        jPanel23.setBackground(new java.awt.Color(75, 108, 108));
-        jPanel23.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel23.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel22.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 80, 40));
-
-        jPanel18.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 680, 60));
-
-        jPanel16.add(jPanel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 560, 680, 70));
+        jPanel16.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 680, 60));
 
         getContentPane().add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 960, 630));
 
@@ -818,7 +825,7 @@ private double total = 0.0;
         jTextArea.append("\n FINAL TOTAL: ₱" + String.format("%.2f", finalTotal));
         jTextArea.append("\n--------------------------------");
         
-        JOptionPane.showMessageDialog(this, "Purchase Successful! Stock Updated & History Saved.");
+        JOptionPane.showMessageDialog(this, "Purchase Successful!");
         
         // 6. Reset session data
         sessionQuantities = new int[6];
@@ -833,14 +840,158 @@ private double total = 0.0;
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        UserDashboard ud = new UserDashboard();
-        ud.setVisible(true);
+        PurchaseHistory s = new PurchaseHistory();
+        s.setVisible(true);
         this.dispose();
         
     }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+     String receiptContent = jTextArea.getText();
+        boolean isPaid = receiptContent.contains("FINAL TOTAL");
+        
+        if (!isPaid) {
+            JOptionPane.showMessageDialog(this,
+                "You have to pay first to get your receipt!\n\n" +
+                "Please complete your purchase by clicking 'Pay Now'.",
+                "DripHorizon",
+                JOptionPane.PLAIN_MESSAGE);
+            return;
+        }
+        
+        // Show receipt panel
+        showReceiptPanel(receiptContent);
+    }
+
+    /**
+     * Displays a simple receipt panel with Print and Close only
+     */
+    private void showReceiptPanel(String receiptContent) {
+        // Create dialog
+        javax.swing.JDialog receiptDialog = new javax.swing.JDialog(this, "Transaction Receipt", true);
+        receiptDialog.setSize(450, 550);
+        receiptDialog.setLocationRelativeTo(this);
+        receiptDialog.setResizable(false);
+        
+        // Main panel with light gray background
+        javax.swing.JPanel mainPanel = new javax.swing.JPanel();
+        mainPanel.setBackground(new java.awt.Color(240, 240, 240));
+        mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
+        mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        
+        // Receipt text area - matches your format exactly
+        javax.swing.JTextArea receiptArea = new javax.swing.JTextArea();
+        receiptArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 13));
+        receiptArea.setBackground(new java.awt.Color(255, 255, 255));
+        receiptArea.setForeground(new java.awt.Color(50, 50, 50));
+        receiptArea.setEditable(false);
+        receiptArea.setLineWrap(false);
+        receiptArea.setWrapStyleWord(false);
+        receiptArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        
+        // Build the receipt content
+        StringBuilder fullReceipt = new StringBuilder();
+        fullReceipt.append("************** DripHorizon ******************\n");
+        fullReceipt.append("Time: ").append(jtime.getText()).append(" | Date: ").append(jdates.getText()).append("\n");
+        fullReceipt.append("*********************************************\n\n");
+        
+        // Add items from receipt content
+        String[] lines = receiptContent.split("\n");
+        for (String line : lines) {
+            if (line.contains("Item:")) {
+                fullReceipt.append(line.trim()).append("\n");
+            }
+        }
+        
+        // Add totals section
+        fullReceipt.append("\n--------------------------------\n");
+        
+        // Extract shipping and payment from receipt content
+        String shipping = "Standard Delivery (Free)";
+        String payment = "Cash";
+        
+        for (String line : lines) {
+            if (line.contains("Shipping:")) {
+                shipping = line.substring(line.indexOf("Shipping:") + 9).trim();
+            }
+            if (line.contains("Payment:")) {
+                payment = line.substring(line.indexOf("Payment:") + 8).trim();
+            }
+        }
+        
+        fullReceipt.append(" Shipping: ").append(shipping).append("\n");
+        fullReceipt.append(" Payment: ").append(payment).append("\n");
+        
+        // Get final total
+        double finalTotal = 0;
+        if (receiptContent.contains("FINAL TOTAL: ₱")) {
+            int start = receiptContent.indexOf("FINAL TOTAL: ₱") + 14;
+            int end = receiptContent.indexOf("\n", start);
+            if (end == -1) end = receiptContent.length();
+            try {
+                finalTotal = Double.parseDouble(receiptContent.substring(start, end).trim());
+            } catch (Exception e) { }
+        }
+        
+        fullReceipt.append(" FINAL TOTAL: ₱").append(String.format("%.2f", finalTotal)).append("\n");
+        fullReceipt.append("--------------------------------\n\n");
+        
+        // Add footer
+        fullReceipt.append("Transaction ID: ").append(generateUniqueCode()).append("\n");
+        fullReceipt.append("Cashier: ").append(nm.getText()).append("\n");
+        fullReceipt.append("Status: PAID\n");
+        fullReceipt.append("\nThank you for your purchase!\n");
+        fullReceipt.append("Please come again soon.\n");
+        
+        receiptArea.setText(fullReceipt.toString());
+        
+        // Scroll pane for receipt
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(receiptArea);
+        scrollPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        
+        // Button panel - only Print and Close
+        javax.swing.JPanel buttonPanel = new javax.swing.JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
+        
+        // Print button
+        javax.swing.JButton printBtn = new javax.swing.JButton("Print");
+        printBtn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        printBtn.setBackground(new java.awt.Color(58, 175, 253));
+        printBtn.setForeground(java.awt.Color.WHITE);
+        printBtn.setFocusPainted(false);
+        printBtn.setPreferredSize(new java.awt.Dimension(80, 35));
+        printBtn.addActionListener(e -> {
+            try {
+                receiptArea.print();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Print error: " + ex.getMessage());
+            }
+        });
+        
+        // Close button
+        javax.swing.JButton closeBtn = new javax.swing.JButton("Close");
+        closeBtn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        closeBtn.setBackground(new java.awt.Color(150, 160, 170));
+        closeBtn.setForeground(java.awt.Color.WHITE);
+        closeBtn.setFocusPainted(false);
+        closeBtn.setPreferredSize(new java.awt.Dimension(80, 35));
+        closeBtn.addActionListener(e -> receiptDialog.dispose());
+        
+        buttonPanel.add(printBtn);
+        buttonPanel.add(closeBtn);
+        
+        // Assemble
+        mainPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+        
+        receiptDialog.add(mainPanel);
+        receiptDialog.setVisible(true);
+    
+    }//GEN-LAST:event_jLabel7MouseClicked
       
 private void updateDatabaseStock() {
-        // Subtracts the session quantity from the database 'quantitys' column
+       
         String sql = "UPDATE tble_buyers SET quantitys = quantitys - ? WHERE id_buyers = ?";
         config conf = new config();
 
@@ -862,7 +1013,14 @@ private void updateDatabaseStock() {
  * Saves purchase details to tble_buyer SQLite table
  * Columns: buyer_id (auto), name (product name), product, quantity
  */
+/**
+ * Saves purchase details to tble_buyer SQLite table
+ * Columns: buyer_id (auto), name (product name), product, quantity, id_generate
+ */
 private boolean savePurchaseToHistory(int userId, double totalAmount, String shipping, String payment) {
+    // Generate unique code (3 letters + 2 special characters)
+    String uniqueCode = generateUniqueCode();
+    
     // Build product summary string
     StringBuilder productsBuilder = new StringBuilder();
     int totalQuantity = 0;
@@ -878,8 +1036,8 @@ private boolean savePurchaseToHistory(int userId, double totalAmount, String shi
     }
     
     String insertSQL = "INSERT INTO tble_buyer (name, product, quantity, total_price, " +
-                      "shipping_method, payment_method, purchase_date, user_id) " +
-                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                      "shipping_method, payment_method, purchase_date, user_id, id_generate) " +
+                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     
     config conf = new config();
     String currentDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
@@ -895,6 +1053,7 @@ private boolean savePurchaseToHistory(int userId, double totalAmount, String shi
         pst.setString(6, payment);
         pst.setString(7, currentDateTime);
         pst.setInt(8, userId);
+        pst.setString(9, uniqueCode); // generated unique code (silently saved)
         
         pst.executeUpdate();
         return true;
@@ -904,7 +1063,28 @@ private boolean savePurchaseToHistory(int userId, double totalAmount, String shi
         return false;
     }
 }
-   
+   /**
+ * Generates a unique 3 letters + 2 special characters code
+ * Format: ABC#$ (3 random letters + 2 random special characters)
+ */
+private String generateUniqueCode() {
+    String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    String specialChars = "!@#$%^&*";
+    StringBuilder code = new StringBuilder();
+    java.util.Random random = new java.util.Random();
+    
+    // Generate 3 random letters
+    for (int i = 0; i < 3; i++) {
+        code.append(letters.charAt(random.nextInt(letters.length())));
+    }
+    
+    // Generate 2 random special characters
+    for (int i = 0; i < 2; i++) {
+        code.append(specialChars.charAt(random.nextInt(specialChars.length())));
+    }
+    
+    return code.toString();
+}
     
     /**
      * @param args the command line arguments
@@ -960,6 +1140,7 @@ private boolean savePurchaseToHistory(int userId, double totalAmount, String shi
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
     private javax.swing.JLabel jLabel72;
@@ -991,7 +1172,6 @@ private boolean savePurchaseToHistory(int userId, double totalAmount, String shi
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;

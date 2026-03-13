@@ -6,7 +6,7 @@
 package main;
 
 import Config.config;
-import dashboard.adminDashboard;
+import dashboard.Admin;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import main.Session;
@@ -53,13 +53,14 @@ public class Login extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(0, 102, 102));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Untitled (Logo) (1).png"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-130, 160, 350, 350));
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic", 1, 36)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("DripHorizon");
         jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
@@ -102,7 +103,7 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setText("      Cancel");
+        jLabel5.setText("        Back");
         jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 70, 40));
 
         jPanel5.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 290, 70, 40));
@@ -117,8 +118,8 @@ public class Login extends javax.swing.JFrame {
         jPanel5.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 160, 220, 40));
 
         jLabel3.setFont(new java.awt.Font("Yu Gothic Medium", 1, 14)); // NOI18N
-        jLabel3.setText("Username:");
-        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 130, -1, 20));
+        jLabel3.setText("Gmail:");
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, -1, 20));
 
         password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         password.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -136,7 +137,7 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel5.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, -1, 20));
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 340, 490));
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 340, 510));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 620, 510));
 
@@ -148,21 +149,21 @@ public class Login extends javax.swing.JFrame {
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
                                     
-    String usernameInput = user.getText().trim();
+    String gmailInput = user.getText().trim();
     String passwordInput = password.getText().trim();
 
     // Validation first
-    if (usernameInput.isEmpty() || passwordInput.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please enter both username and password!");
+    if (gmailInput.isEmpty() || passwordInput.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please enter both gmail and password!");
         return;
     }
 
     try {
         java.sql.Connection con = config.connectDB();
         // Use consistent column names - adjust based on your actual database schema
-        String sql = "SELECT register_id, username, status, acstatus FROM tble_user WHERE username = ? AND password = ? AND acstatus = ?";
+        String sql = "SELECT register_id, gmail, status, acstatus FROM tble_user WHERE gmail = ? AND password = ? AND acstatus = ?";
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
-        pst.setString(1, usernameInput);
+        pst.setString(1, gmailInput);
         pst.setString(2, passwordInput);
         pst.setString(3, "Active");
 
@@ -180,15 +181,15 @@ public class Login extends javax.swing.JFrame {
 
             // Role-based redirection
             if (status.equalsIgnoreCase("admin")) {
-                new dashboard.adminDashboard().setVisible(true);
+                new dashboard.Admin().setVisible(true);
             } else {
-                new main.UserDashboard().setVisible(true);
+                new main.orderss().setVisible(true);
             }
 
             this.dispose(); // Close login window
 
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid credentials or account is not Active!");
+            JOptionPane.showMessageDialog(this, "Your account is not active yet. Please wait for Admin approval");
         }
 
         // Clean up resources
@@ -214,7 +215,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel3MouseExited
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-          LandingPage ifm = new LandingPage();
+       LandingPage ifm = new LandingPage();
        ifm.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_jPanel4MouseClicked

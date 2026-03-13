@@ -169,6 +169,11 @@ public class LandingPage extends javax.swing.JFrame {
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("    Contact");
         jLabel19.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jLabel19.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel19MouseClicked(evt);
+            }
+        });
         jPanel11.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 40));
 
         jLabel21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/circle-illuminate-frame-with-gradient-green-round-neon-banner-isolated-black-background-vector-illustration_515038-18118.jpg"))); // NOI18N
@@ -292,6 +297,12 @@ public class LandingPage extends javax.swing.JFrame {
         ab.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel18MouseClicked
+
+    private void jLabel19MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel19MouseClicked
+        ContactUS cu = new ContactUS();
+        cu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jLabel19MouseClicked
 
     /**
      * @param args the command line arguments
