@@ -19,9 +19,6 @@ import java.security.MessageDigest;
 
 public class Login extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LandingPage
-     */
     public Login() {
         initComponents();
     }
@@ -182,7 +179,6 @@ public static String hashPassword(String password) {
 
     try {
 
-        // HASH the password entered by the user
         String hashedPassword = register.hashPassword(passwordInput);
 
         java.sql.Connection con = config.connectDB();
@@ -191,7 +187,7 @@ public static String hashPassword(String password) {
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
 
         pst.setString(1, gmailInput);
-        pst.setString(2, hashedPassword); // use hashed password
+        pst.setString(2, hashedPassword);
         pst.setString(3, "Active");
 
         java.sql.ResultSet rs = pst.executeQuery();

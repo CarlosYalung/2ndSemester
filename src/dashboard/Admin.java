@@ -27,11 +27,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Admin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PurchaseHistory
-     */
-       public Admin() {
-        // Check login using config.loggedInAID (same as user.java)
+       public Admin() {     
         if (config.loggedInAID <= 0) {
             JOptionPane.showMessageDialog(null,
                 "You need to login first!",
@@ -42,14 +38,13 @@ public class Admin extends javax.swing.JFrame {
                 new Login().setVisible(true);
             });
             
-            // Close this window since login failed
+           
             this.dispose();
             return;
         }
         
         initComponents();
-         // Load data on startup
-         // Show user name in header
+        
         displayUser();
         loadProfilePicture();
         displaytable();
@@ -75,13 +70,9 @@ public class Admin extends javax.swing.JFrame {
     }
 }
     
-    /**
-     * Load purchase history from tble_buyer for current user
-     * Columns: Product, Quantity, Total Price, Shipping, Payment, Date
-     */
     void displaytable() {
     config con = new config();
-    // Explicitly list the columns you want to display, omitting profile_picture
+    
     String sql = "SELECT register_id, name, lastname, gmail, status,acstatus FROM tble_user WHERE acstatus != 'Active'"; 
     con.displayData(sql, table);
 }
@@ -388,7 +379,7 @@ public class Admin extends javax.swing.JFrame {
         File file = chooser.getSelectedFile();
         String path = file.getAbsolutePath();
 
-        // Show image in jLabel6
+        
         ImageIcon icon = new ImageIcon(path);
         Image img = icon.getImage().getScaledInstance(
                 jLabel6.getWidth(),
@@ -396,7 +387,7 @@ public class Admin extends javax.swing.JFrame {
                 Image.SCALE_SMOOTH);
         jLabel6.setIcon(new ImageIcon(img));
 
-        // Save path in database
+        
         try{
             Connection con = config.connectDB();
             String sql = "UPDATE tble_user SET profile_picture = ? WHERE register_id = ?";
@@ -452,14 +443,14 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
 
     try{
 
-        // HASH THE PASSWORD
+       
         String hashedPassword = register.hashPassword(password);
 
         java.sql.Connection con = config.connectDB();
         String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, hashedPassword); // save hashed password
+        pst.setString(1, hashedPassword);
         pst.setInt(2, config.loggedInAID);
 
         pst.executeUpdate();
@@ -483,8 +474,7 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
         return;
     }
 
-    // Assuming your first column (0) is register_id or you can get the username
-    int userID = (int) table.getValueAt(selectedRow, 0); // adjust column if needed
+    int userID = (int) table.getValueAt(selectedRow, 0); 
 
     try {
         java.sql.Connection con = config.connectDB();
@@ -498,7 +488,7 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
 
         if (updated > 0) {
             javax.swing.JOptionPane.showMessageDialog(null, "User approved successfully!");
-            displaytable(); // refresh the table
+            displaytable(); 
         } else {
             javax.swing.JOptionPane.showMessageDialog(null, "Failed to approve the user.");
         }

@@ -28,11 +28,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdminProduct extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PurchaseHistory
-     */
-       public AdminProduct() {
-        // Check login using config.loggedInAID (same as user.java)
+    
+      public AdminProduct() {
+       
         if (config.loggedInAID <= 0) {
             JOptionPane.showMessageDialog(null,
                 "You need to login first!",
@@ -43,14 +41,12 @@ public class AdminProduct extends javax.swing.JFrame {
                 new Login().setVisible(true);
             });
             
-            // Close this window since login failed
             this.dispose();
             return;
         }
         
         initComponents();
-         // Load data on startup
-         // Show user name in header
+        
         displayUser();
         loadProfilePicture();
         accountsUser();
@@ -64,13 +60,10 @@ public class AdminProduct extends javax.swing.JFrame {
 }
      
     
-    /**
-     * Load purchase history from tble_buyer for current user
-     * Columns: Product, Quantity, Total Price, Shipping, Payment, Date
-     */
+    
    void accountsUser() {
     config con = new config();
-    // We list all columns explicitly but exclude 'profile_picture'
+   
     String sql = "SELECT register_id, name, lastname, gmail, password, status, acstatus FROM tble_user"; 
     con.displayData(sql, tableProduct);
 }
@@ -397,7 +390,7 @@ public static String hashPassword(String password) {
         File file = chooser.getSelectedFile();
         String path = file.getAbsolutePath();
 
-        // Show image in jLabel6
+       
         ImageIcon icon = new ImageIcon(path);
         Image img = icon.getImage().getScaledInstance(
                 jLabel6.getWidth(),
@@ -405,7 +398,7 @@ public static String hashPassword(String password) {
                 Image.SCALE_SMOOTH);
         jLabel6.setIcon(new ImageIcon(img));
 
-        // Save path in database
+        
         try{
             Connection con = config.connectDB();
             String sql = "UPDATE tble_user SET profile_picture = ? WHERE register_id = ?";
@@ -461,14 +454,14 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
 
     try{
 
-        // HASH THE PASSWORD
+       
         String hashedPassword = register.hashPassword(password);
 
         java.sql.Connection con = config.connectDB();
         String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, hashedPassword); // save hashed password
+        pst.setString(1, hashedPassword); 
         pst.setInt(2, config.loggedInAID);
 
         pst.executeUpdate();
@@ -485,7 +478,7 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
     }//GEN-LAST:event_SecurityMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-     // Get selected row from table
+     
     int selectedRow = tableProduct.getSelectedRow();
     
     if (selectedRow == -1) {
@@ -496,19 +489,18 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
         return;
     }
     
-    // Get current values from selected row
+    
     int id = Integer.parseInt(tableProduct.getValueAt(selectedRow, 0).toString());
     String currentName = tableProduct.getValueAt(selectedRow, 1).toString();
     double currentPrice = Double.parseDouble(tableProduct.getValueAt(selectedRow, 2).toString());
     int currentQty = Integer.parseInt(tableProduct.getValueAt(selectedRow, 3).toString());
     
-    // Create input fields pre-filled with current values
+   
     JTextField nameField = new JTextField(currentName);
     JTextField priceField = new JTextField(String.valueOf(currentPrice));
-    JTextField addQtyField = new JTextField("0"); // For restocking (add to existing)
-    JTextField newQtyField = new JTextField(String.valueOf(currentQty)); // For direct edit
+    JTextField addQtyField = new JTextField("0"); 
+    JTextField newQtyField = new JTextField(String.valueOf(currentQty)); 
     
-    // Create panel
     JPanel panel = new JPanel(new GridLayout(0, 1, 5, 5));
     
     panel.add(new JLabel("Product Name:"));
@@ -524,7 +516,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
     panel.add(new JLabel("Or Set New Quantity (Replace):"));
     panel.add(newQtyField);
     
-    // Show dialog
     int result = JOptionPane.showConfirmDialog(
         this,
         panel,
@@ -539,7 +530,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
         String addQtyStr = addQtyField.getText().trim();
         String newQtyStr = newQtyField.getText().trim();
         
-        // Validation
         if (pname.isEmpty() || priceStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, 
                 "Product name and price are required!", 
@@ -552,9 +542,8 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
             double price = Double.parseDouble(priceStr);
             int finalQuantity = currentQty;
             
-            // Determine quantity logic
             if (!addQtyStr.equals("0") && !addQtyStr.isEmpty()) {
-                // Restock mode: add to existing
+              
                 int addQty = Integer.parseInt(addQtyStr);
                 if (addQty < 0) {
                     JOptionPane.showMessageDialog(this, 
@@ -565,7 +554,7 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
                 }
                 finalQuantity = currentQty + addQty;
             } else if (!newQtyStr.equals(String.valueOf(currentQty)) && !newQtyStr.isEmpty()) {
-                // Replace mode: set new quantity
+                
                 finalQuantity = Integer.parseInt(newQtyStr);
             }
             
@@ -577,7 +566,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
                 return;
             }
             
-            // Update database
             Connection con = config.connectDB();
             String sql = "UPDATE tble_buyers SET Pname = ?, BPrice = ?, quantitys = ? WHERE id_buyers = ?";
             PreparedStatement pst = con.prepareStatement(sql);
@@ -596,7 +584,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
                 }
                 JOptionPane.showMessageDialog(this, message, "Success", JOptionPane.INFORMATION_MESSAGE);
                 
-                // Refresh table
                 loadProducts();
             }
             

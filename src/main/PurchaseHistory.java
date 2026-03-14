@@ -18,11 +18,8 @@ import java.security.MessageDigest;
  */
 public class PurchaseHistory extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PurchaseHistory
-     */
        public PurchaseHistory() {
-        // Check login using config.loggedInAID (same as user.java)
+        
         if (config.loggedInAID <= 0) {
             JOptionPane.showMessageDialog(null,
                 "You need to login first!",
@@ -33,14 +30,14 @@ public class PurchaseHistory extends javax.swing.JFrame {
                 new Login().setVisible(true);
             });
             
-            // Close this window since login failed
+           
             this.dispose();
             return;
         }
         
         initComponents();
-        loadPurchaseHistory(); // Load data on startup
-         // Show user name in header
+        loadPurchaseHistory(); 
+       
         displayUser();
         loadProfilePicture();
     }
@@ -67,20 +64,17 @@ public static String hashPassword(String password) {
     }
 }
     
-    /**
-     * Load purchase history from tble_buyer for current user
-     * Columns: Product, Quantity, Total Price, Shipping, Payment, Date
-     */
+    
    private void loadPurchaseHistory() {
     DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
     model.setRowCount(0); 
     
-    // The 8th column is "Status"
+   
     model.setColumnIdentifiers(new String[] {
         "Product", "Quantity", "Total Price", "Shipping", "Payment", "Date", "IdGenerate", "Status"
     });
     
-    // We select 'status' and DO NOT filter out 'Refunded' so it stays visible
+    
     String sql = "SELECT product, quantity, total_price, " +
                 "shipping_method, payment_method, purchase_date, id_generate, status " + 
                 "FROM tble_buyer WHERE user_id = ? " +
@@ -95,7 +89,7 @@ public static String hashPassword(String password) {
         
         try (ResultSet rs = pst.executeQuery()) {
             while (rs.next()) {
-                // Fetch the status. If it's null/empty, show "Paid"
+               
                 String dbStatus = rs.getString("status");
                 String displayStatus = (dbStatus == null || dbStatus.isEmpty()) ? "Paid" : dbStatus;
 
@@ -107,7 +101,7 @@ public static String hashPassword(String password) {
                     rs.getString("payment_method"),
                     rs.getString("purchase_date"),
                     rs.getString("id_generate"),
-                    displayStatus // This will show "Refunded" once the Admin approves
+                    displayStatus 
                 });
             }
         }
@@ -414,7 +408,6 @@ public static String hashPassword(String password) {
         File file = chooser.getSelectedFile();
         String path = file.getAbsolutePath();
 
-        // Show image in jLabel6
         ImageIcon icon = new ImageIcon(path);
         Image img = icon.getImage().getScaledInstance(
                 jLabel6.getWidth(),
@@ -422,7 +415,6 @@ public static String hashPassword(String password) {
                 Image.SCALE_SMOOTH);
         jLabel6.setIcon(new ImageIcon(img));
 
-        // Save path in database
         try{
             Connection con = config.connectDB();
             String sql = "UPDATE tble_user SET profile_picture = ? WHERE register_id = ?";
@@ -478,14 +470,13 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
 
     try{
 
-        // HASH THE PASSWORD
         String hashedPassword = register.hashPassword(password);
 
         java.sql.Connection con = config.connectDB();
         String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, hashedPassword); // save hashed password
+        pst.setString(1, hashedPassword);
         pst.setInt(2, config.loggedInAID);
 
         pst.executeUpdate();
@@ -546,11 +537,9 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
             pst.close();
             con.close();
 
-            // Refresh labels on screen
             nm.setText(newFname);
             ln.setText(newLname);
 
-            // Call profile refresh
             displayUser();
 
         }catch(Exception e){

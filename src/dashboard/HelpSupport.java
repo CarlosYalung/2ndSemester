@@ -27,11 +27,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class HelpSupport extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PurchaseHistory
-     */
+  
        public HelpSupport() {
-        // Check login using config.loggedInAID (same as user.java)
+      
         if (config.loggedInAID <= 0) {
             JOptionPane.showMessageDialog(null,
                 "You need to login first!",
@@ -42,14 +40,12 @@ public class HelpSupport extends javax.swing.JFrame {
                 new Login().setVisible(true);
             });
             
-            // Close this window since login failed
             this.dispose();
             return;
         }
         
         initComponents();
-         // Load data on startup
-         // Show user name in header
+        
         displayUser();
         loadProfilePicture();
         displaytable();
@@ -75,14 +71,10 @@ public static String hashPassword(String password) {
         return null;
     }
 }
-    /**
-     * Load purchase history from tble_buyer for current user
-     * Columns: Product, Quantity, Total Price, Shipping, Payment, Date
-     */
+    
   void displaytable() {
     config con = new config();
 
-    // FIXED: Added check for status column existence
     String sql = "SELECT Contact_id, Cname, Cemail, Citem, Csub, Cmessage, date_submitted, "
             + "COALESCE(status, 'Pending') as status "
             + "FROM tble_ContactUs WHERE COALESCE(status, 'Pending')='Pending'";
@@ -405,7 +397,6 @@ public static String hashPassword(String password) {
                 Image.SCALE_SMOOTH);
         jLabel6.setIcon(new ImageIcon(img));
 
-        // Save path in database
         try{
             Connection con = config.connectDB();
             String sql = "UPDATE tble_user SET profile_picture = ? WHERE register_id = ?";
@@ -461,14 +452,13 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
 
     try{
 
-        // HASH THE PASSWORD
         String hashedPassword = register.hashPassword(password);
 
         java.sql.Connection con = config.connectDB();
         String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, hashedPassword); // save hashed password
+        pst.setString(1, hashedPassword); 
         pst.setInt(2, config.loggedInAID);
 
         pst.executeUpdate();
@@ -491,9 +481,8 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
         return;
     }
 
-    // Getting data from the Admin JTable
-    String contactID = table.getValueAt(row, 0).toString(); // Contact_id
-    String itemID = table.getValueAt(row, 3).toString();    // Citem (which contains Item ID/id_generate)
+    String contactID = table.getValueAt(row, 0).toString(); 
+    String itemID = table.getValueAt(row, 3).toString();   
 
     int confirm = JOptionPane.showConfirmDialog(this, "Approve refund for Item ID: " + itemID + "?", "Confirm", JOptionPane.YES_NO_OPTION);
     
@@ -501,14 +490,11 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
         try {
             Connection con = config.connectDB();
 
-            // 1. Update the Support Request status to 'Approved'
             String sqlSupport = "UPDATE tble_ContactUs SET status='Approved' WHERE Contact_id=?";
             PreparedStatement pst1 = con.prepareStatement(sqlSupport);
             pst1.setString(1, contactID);
             pst1.executeUpdate();
 
-            // 2. Update the Buyer table status to 'Refunded'
-            // We match by id_generate because that's what Citem stores
             String sqlBuyer = "UPDATE tble_buyer SET status='Refunded' WHERE id_generate=?";
             PreparedStatement pst2 = con.prepareStatement(sqlBuyer);
             pst2.setString(1, itemID);
@@ -524,7 +510,7 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
             pst1.close();
             pst2.close();
             con.close();
-            displaytable(); // Refresh Admin Table
+            displaytable(); 
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());

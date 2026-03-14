@@ -18,9 +18,7 @@ import javax.swing.JOptionPane;
  */
 public class Contact extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LandingPage
-     */
+    
     public Contact() {
         initComponents();
         loadUserInfo();
@@ -297,7 +295,6 @@ if(itemId.isEmpty()){
 
 try (Connection conn = Config.config.connectDB()) {
 
-    // GET NAME AND EMAIL OF LOGGED IN USER
     String name = "";
     String email = "";
 
@@ -343,8 +340,8 @@ try (Connection conn = Config.config.connectDB()) {
 
     try (PreparedStatement insertPst = conn.prepareStatement(insertSql)) {
 
-        insertPst.setString(1, name);   // AUTO NAME
-        insertPst.setString(2, email);  // AUTO EMAIL
+        insertPst.setString(1, name);   
+        insertPst.setString(2, email);  
         insertPst.setString(3, itemId);
         insertPst.setString(4, subject);
         insertPst.setString(5, Cmessage.getText().trim());

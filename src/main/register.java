@@ -16,9 +16,7 @@ import java.security.MessageDigest;
  */
 public class register extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LandingPage
-     */
+    
     public register() {
         initComponents();
     }

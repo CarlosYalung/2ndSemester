@@ -22,12 +22,12 @@ import javax.swing.table.DefaultTableModel;
  */
 public class orderss extends javax.swing.JFrame {
 private double total = 0.0;
-    // Index 0=Jordan(ID 1), 1=Nike(ID 2), 2=Air Jordan(ID 3), 3=Adidas(ID 4), 4=NB(ID 5), 5=Puma(ID 6)
+   
     private int[] sessionQuantities = new int[6]; 
 
     public orderss() {
     if (!Session.isLoggedIn()) {
-        javax.swing.JOptionPane.showMessageDialog(null,  // Use null, not this
+        javax.swing.JOptionPane.showMessageDialog(null,  
             "You need to login first!",
             "DripHorizon - Login Required",
             javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -36,7 +36,6 @@ private double total = 0.0;
             new Login().setVisible(true);
         });
         
-        // Critical: Stop initialization here
         return;  
     }
 
@@ -81,12 +80,12 @@ private double total = 0.0;
             }
 
             double itemTotal = unitPrice * qty;
-            // This stacks the items in the JTextArea
+           
             String receiptLine = String.format("Item: %-20s| Qty: %-3d | Price: ₱%.2f\n", itemName, qty, itemTotal);
             jTextArea.append(receiptLine);
 
             total += itemTotal;
-            sessionQuantities[idIndex] += qty; // Tracks which ID to subtract later
+            sessionQuantities[idIndex] += qty; 
 
             jTextFieldtotal.setText(String.format("%.2f", total));
             spinner.setValue(0);
@@ -96,9 +95,8 @@ private double total = 0.0;
     }
   public void loadOrderQuantity(int orderId) {
     DefaultTableModel model = (DefaultTableModel) Jtable.getModel();
-    model.setRowCount(0); // Clear old data
+    model.setRowCount(0); 
 
-    // Set columns to match your database headers
     if (model.getColumnCount() == 0) {
         model.addColumn("Product");
         model.addColumn("Stock Left");
@@ -106,7 +104,7 @@ private double total = 0.0;
 
     try {
         config con = new config();
-        // Updated SQL to match your screenshot: tble_buyers and quantitytys
+      
         String sql = "SELECT Pname, quantitys FROM tble_buyers WHERE id_buyers = ?";
         
         try (Connection cn = con.connectDB();
@@ -134,7 +132,7 @@ private double total = 0.0;
         try {
             config con = new config();
             Connection cn = con.connectDB();
-            // Pulls all 6 items ordered by ID to match your panels
+           
             String sql = "SELECT Pname, quantitys FROM tble_buyers ORDER BY id_buyers ASC";
             PreparedStatement pst = cn.prepareStatement(sql);
             ResultSet rs = pst.executeQuery();
@@ -155,30 +153,27 @@ private double total = 0.0;
     new Thread(() -> {
         while (true) {
             try {
-                Thread.sleep(1000); // update every second
+                Thread.sleep(1000); 
             } catch (InterruptedException ex) {
                 Logger.getLogger(orderss.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            // Get current date and time
             Date now = new Date();
             SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm:ss a");
             SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd-MM-yyyy");
 
-            // Format them
             String currentTime = timeFormat.format(now);
             String currentDate = dateFormat.format(now);
 
-            // Update JLabel text safely in the EDT
             javax.swing.SwingUtilities.invokeLater(() -> {
-                jtime.setText(currentTime);   // JLabel for time
-                jdates.setText(currentDate);  // JLabel for date
+                jtime.setText(currentTime);   
+                jdates.setText(currentDate);  
             });
         }
     }).start();
 }
    public void zero() {
-    // get the spinner value as int
+    
     int qty = (int) jSpinner1.getValue();
     
     if (qty == 0) {
@@ -773,25 +768,21 @@ private double total = 0.0;
         return;
     }
 
-    // --- Modern Panel Setup ---
     java.awt.Color bgWhite = new java.awt.Color(255, 255, 255);
     javax.swing.JPanel paymentPanel = new javax.swing.JPanel();
     paymentPanel.setLayout(new javax.swing.BoxLayout(paymentPanel, javax.swing.BoxLayout.Y_AXIS));
     paymentPanel.setBackground(bgWhite);
 
-    // Delivery Box
     String[] deliveryOptions = {"Standard Delivery (Free)", "Express Delivery (₱50.00)", "Pick-up at Store (Free)"};
     javax.swing.JComboBox<String> deliveryBox = new javax.swing.JComboBox<>(deliveryOptions);
     paymentPanel.add(new javax.swing.JLabel("Shipping Method:"));
     paymentPanel.add(deliveryBox);
 
-    // Payment Box
     String[] paymentOptions = {"GCash", "Maya", "Cash on Delivery", "Credit Card"};
     javax.swing.JComboBox<String> paymentBox = new javax.swing.JComboBox<>(paymentOptions);
     paymentPanel.add(new javax.swing.JLabel("Payment Method:"));
     paymentPanel.add(paymentBox);
 
-    // Show Dialog
     int result = JOptionPane.showConfirmDialog(this, paymentPanel, 
             "DripHorizon Secure Checkout", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
@@ -802,7 +793,6 @@ private double total = 0.0;
         double finalTotal = total + deliveryFee;
         String selectedPayment = (String) paymentBox.getSelectedItem();
 
-        // 2. --- SAVE PURCHASE TO tble_buyer (SQLite) ---
         boolean purchaseSaved = savePurchaseToHistory(userID, finalTotal, selectedDel, selectedPayment);
         
         if (!purchaseSaved) {
@@ -812,13 +802,10 @@ private double total = 0.0;
             return;
         }
 
-        // 3. --- DATABASE UPDATE (Stock Minus Logic) ---
         updateDatabaseStock();
 
-        // 4. --- UI REFRESH ---
         loadOrderData();
 
-        // 5. Update Receipt
         jTextArea.append("\n--------------------------------");
         jTextArea.append("\n Shipping: " + selectedDel);
         jTextArea.append("\n Payment: " + selectedPayment);
@@ -827,7 +814,6 @@ private double total = 0.0;
         
         JOptionPane.showMessageDialog(this, "Purchase Successful!");
         
-        // 6. Reset session data
         sessionQuantities = new int[6];
         total = 0.0;
     }
@@ -859,27 +845,21 @@ private double total = 0.0;
             return;
         }
         
-        // Show receipt panel
         showReceiptPanel(receiptContent);
     }
 
-    /**
-     * Displays a simple receipt panel with Print and Close only
-     */
     private void showReceiptPanel(String receiptContent) {
-        // Create dialog
+       
         javax.swing.JDialog receiptDialog = new javax.swing.JDialog(this, "Transaction Receipt", true);
         receiptDialog.setSize(450, 550);
         receiptDialog.setLocationRelativeTo(this);
         receiptDialog.setResizable(false);
         
-        // Main panel with light gray background
         javax.swing.JPanel mainPanel = new javax.swing.JPanel();
         mainPanel.setBackground(new java.awt.Color(240, 240, 240));
         mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
         mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
         
-        // Receipt text area - matches your format exactly
         javax.swing.JTextArea receiptArea = new javax.swing.JTextArea();
         receiptArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 13));
         receiptArea.setBackground(new java.awt.Color(255, 255, 255));
@@ -889,13 +869,11 @@ private double total = 0.0;
         receiptArea.setWrapStyleWord(false);
         receiptArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
         
-        // Build the receipt content
         StringBuilder fullReceipt = new StringBuilder();
         fullReceipt.append("************** DripHorizon ******************\n");
         fullReceipt.append("Time: ").append(jtime.getText()).append(" | Date: ").append(jdates.getText()).append("\n");
         fullReceipt.append("*********************************************\n\n");
         
-        // Add items from receipt content
         String[] lines = receiptContent.split("\n");
         for (String line : lines) {
             if (line.contains("Item:")) {
@@ -903,10 +881,8 @@ private double total = 0.0;
             }
         }
         
-        // Add totals section
         fullReceipt.append("\n--------------------------------\n");
         
-        // Extract shipping and payment from receipt content
         String shipping = "Standard Delivery (Free)";
         String payment = "Cash";
         
@@ -922,7 +898,6 @@ private double total = 0.0;
         fullReceipt.append(" Shipping: ").append(shipping).append("\n");
         fullReceipt.append(" Payment: ").append(payment).append("\n");
         
-        // Get final total
         double finalTotal = 0;
         if (receiptContent.contains("FINAL TOTAL: ₱")) {
             int start = receiptContent.indexOf("FINAL TOTAL: ₱") + 14;
@@ -936,7 +911,6 @@ private double total = 0.0;
         fullReceipt.append(" FINAL TOTAL: ₱").append(String.format("%.2f", finalTotal)).append("\n");
         fullReceipt.append("--------------------------------\n\n");
         
-        // Add footer
         fullReceipt.append("Transaction ID: ").append(generateUniqueCode()).append("\n");
         fullReceipt.append("Cashier: ").append(nm.getText()).append("\n");
         fullReceipt.append("Status: PAID\n");
@@ -945,16 +919,13 @@ private double total = 0.0;
         
         receiptArea.setText(fullReceipt.toString());
         
-        // Scroll pane for receipt
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(receiptArea);
         scrollPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
         
-        // Button panel - only Print and Close
         javax.swing.JPanel buttonPanel = new javax.swing.JPanel();
         buttonPanel.setOpaque(false);
         buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
         
-        // Print button
         javax.swing.JButton printBtn = new javax.swing.JButton("Print");
         printBtn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
         printBtn.setBackground(new java.awt.Color(58, 175, 253));
@@ -969,7 +940,6 @@ private double total = 0.0;
             }
         });
         
-        // Close button
         javax.swing.JButton closeBtn = new javax.swing.JButton("Close");
         closeBtn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
         closeBtn.setBackground(new java.awt.Color(150, 160, 170));
@@ -981,7 +951,6 @@ private double total = 0.0;
         buttonPanel.add(printBtn);
         buttonPanel.add(closeBtn);
         
-        // Assemble
         mainPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
         mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
         
@@ -1018,10 +987,9 @@ private void updateDatabaseStock() {
  * Columns: buyer_id (auto), name (product name), product, quantity, id_generate
  */
 private boolean savePurchaseToHistory(int userId, double totalAmount, String shipping, String payment) {
-    // Generate unique code (3 letters + 2 special characters)
+  
     String uniqueCode = generateUniqueCode();
     
-    // Build product summary string
     StringBuilder productsBuilder = new StringBuilder();
     int totalQuantity = 0;
     String[] productNames = {"Jordan", "Nike Zoom Vomero 5", "Air Jordan 1 Low", 
@@ -1045,15 +1013,15 @@ private boolean savePurchaseToHistory(int userId, double totalAmount, String shi
     try (Connection cn = conf.connectDB();
          PreparedStatement pst = cn.prepareStatement(insertSQL)) {
         
-        pst.setString(1, nm.getText()); // buyer name
-        pst.setString(2, productsBuilder.toString()); // all products summary
-        pst.setInt(3, totalQuantity); // total quantity
-        pst.setDouble(4, totalAmount); // total price
+        pst.setString(1, nm.getText()); 
+        pst.setString(2, productsBuilder.toString()); 
+        pst.setInt(3, totalQuantity); 
+        pst.setDouble(4, totalAmount); 
         pst.setString(5, shipping);
         pst.setString(6, payment);
         pst.setString(7, currentDateTime);
         pst.setInt(8, userId);
-        pst.setString(9, uniqueCode); // generated unique code (silently saved)
+        pst.setString(9, uniqueCode); 
         
         pst.executeUpdate();
         return true;
@@ -1073,12 +1041,10 @@ private String generateUniqueCode() {
     StringBuilder code = new StringBuilder();
     java.util.Random random = new java.util.Random();
     
-    // Generate 3 random letters
     for (int i = 0; i < 3; i++) {
         code.append(letters.charAt(random.nextInt(letters.length())));
     }
     
-    // Generate 2 random special characters
     for (int i = 0; i < 2; i++) {
         code.append(specialChars.charAt(random.nextInt(specialChars.length())));
     }

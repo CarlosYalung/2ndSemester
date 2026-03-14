@@ -28,11 +28,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class AdminUsers extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PurchaseHistory
-     */
+    
        public AdminUsers() {
-        // Check login using config.loggedInAID (same as user.java)
+      
         if (config.loggedInAID <= 0) {
             JOptionPane.showMessageDialog(null,
                 "You need to login first!",
@@ -43,14 +41,12 @@ public class AdminUsers extends javax.swing.JFrame {
                 new Login().setVisible(true);
             });
             
-            // Close this window since login failed
             this.dispose();
             return;
         }
         
         initComponents();
-         // Load data on startup
-         // Show user name in header
+        
         displayUser();
         loadProfilePicture();
         accountsUser();
@@ -81,7 +77,6 @@ public class AdminUsers extends javax.swing.JFrame {
     config con = new config();
     String searchStr = jTextField1.getText().trim();
     
-    // Explicitly select all columns EXCEPT profile_picture
     String sql = "SELECT register_id, name, lastname, gmail, password, status, acstatus "
                + "FROM tble_user WHERE "
                + "name LIKE '%" + searchStr + "%' OR "
@@ -90,13 +85,10 @@ public class AdminUsers extends javax.swing.JFrame {
     con.displayData(sql, tableuser);
 }
     
-    /**
-     * Load purchase history from tble_buyer for current user
-     * Columns: Product, Quantity, Total Price, Shipping, Payment, Date
-     */
+   
    void accountsUser() {
     config con = new config();
-    // We list all columns explicitly but exclude 'profile_picture'
+   
     String sql = "SELECT register_id, name, lastname, gmail, password, status, acstatus FROM tble_user"; 
     con.displayData(sql, tableuser);
 }
@@ -459,7 +451,6 @@ public class AdminUsers extends javax.swing.JFrame {
         File file = chooser.getSelectedFile();
         String path = file.getAbsolutePath();
 
-        // Show image in jLabel6
         ImageIcon icon = new ImageIcon(path);
         Image img = icon.getImage().getScaledInstance(
                 jLabel6.getWidth(),
@@ -467,7 +458,6 @@ public class AdminUsers extends javax.swing.JFrame {
                 Image.SCALE_SMOOTH);
         jLabel6.setIcon(new ImageIcon(img));
 
-        // Save path in database
         try{
             Connection con = config.connectDB();
             String sql = "UPDATE tble_user SET profile_picture = ? WHERE register_id = ?";
@@ -523,14 +513,13 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
 
     try{
 
-        // HASH THE PASSWORD
         String hashedPassword = register.hashPassword(password);
 
         java.sql.Connection con = config.connectDB();
         String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
 
-        pst.setString(1, hashedPassword); // save hashed password
+        pst.setString(1, hashedPassword); 
         pst.setInt(2, config.loggedInAID);
 
         pst.executeUpdate();
@@ -554,7 +543,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
         return;
     }
 
-    // Get the User ID and Email from the table
     int id = Integer.parseInt(tableuser.getValueAt(selectedRow, 0).toString());
     String userEmail = tableuser.getValueAt(selectedRow, 3).toString(); 
 
@@ -569,42 +557,39 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
     try {
         config con = new config();
         java.sql.Connection connection = con.connectDB();
-        connection.setAutoCommit(false); // Start transaction
+        connection.setAutoCommit(false);
 
         try {
-            // 1. Delete from tble_buyer using 'user_id' (NOT buyer_id)
+            
             String sqlBuyer = "DELETE FROM tble_buyer WHERE user_id = ?";
             try (java.sql.PreparedStatement pstBuyer = connection.prepareStatement(sqlBuyer)) {
-                pstBuyer.setString(1, String.valueOf(id)); // user_id is TEXT in your schema
+                pstBuyer.setString(1, String.valueOf(id));
                 pstBuyer.executeUpdate();
             }
 
-            // 2. Delete from tble_ContactUs using 'Cemail'
             String sqlContact = "DELETE FROM tble_ContactUs WHERE Cemail = ?";
             try (java.sql.PreparedStatement pstContact = connection.prepareStatement(sqlContact)) {
                 pstContact.setString(1, userEmail);
                 pstContact.executeUpdate();
             }
 
-            // 3. Finally, delete from tble_user using 'register_id'
             String sqlUser = "DELETE FROM tble_user WHERE register_id = ?";
             try (java.sql.PreparedStatement pstUser = connection.prepareStatement(sqlUser)) {
                 pstUser.setInt(1, id);
                 pstUser.executeUpdate();
             }
 
-            connection.commit(); // Save all changes
+            connection.commit(); 
             JOptionPane.showMessageDialog(this, "User and all related records deleted!");
 
         } catch (SQLException ex) {
-            connection.rollback(); // Undo if any step fails
+            connection.rollback(); 
             throw ex;
         } finally {
             connection.setAutoCommit(true);
             connection.close();
         }
 
-        // Refresh the table view
         accountsUser(); 
 
     } catch (Exception e) {
@@ -643,7 +628,7 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            // Check for duplicate Gmail
+           
             config con = new config();
             Connection connection = con.connectDB();
 
@@ -657,13 +642,11 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
                 return;
             }
 
-            // Hash password only if user entered something
-            String passwordToSave = tableuser.getValueAt(selectedRow, 4).toString(); // current password
+            String passwordToSave = tableuser.getValueAt(selectedRow, 4).toString(); 
             if (!txtPassword.getText().isEmpty()) {
                 passwordToSave = register.hashPassword(txtPassword.getText());
             }
 
-            // Update user
             String sql = "UPDATE tble_user SET name=?, lastname=?, gmail=?, password=?, status=?, acstatus=? WHERE register_id=?";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, txtName.getText());
@@ -680,7 +663,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
             pst.close();
             connection.close();
 
-            // Refresh table
             accountsUser();
         }
 
@@ -715,14 +697,13 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-            // Validate required fields
+            
             if (txtName.getText().isEmpty() || txtLastname.getText().isEmpty() ||
                 txtgmail.getText().isEmpty() || txtPassword.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields are required!");
                 return;
             }
 
-            // Optional: Validate Gmail format
             if (!txtgmail.getText().matches("^[\\w-.]+@[\\w-]+\\.[a-z]{2,}$")) {
                 JOptionPane.showMessageDialog(this, "Invalid Gmail format!");
                 return;
@@ -731,7 +712,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
             config con = new config();
             Connection connection = con.connectDB();
 
-            // Check for duplicate Gmail
             String checkSql = "SELECT * FROM tble_user WHERE gmail = ?";
             PreparedStatement checkPst = connection.prepareStatement(checkSql);
             checkPst.setString(1, txtgmail.getText());
@@ -742,10 +722,8 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
                 return;
             }
 
-            // Hash password
             String hashedPassword = register.hashPassword(txtPassword.getText());
 
-            // Insert new user
             String sql = "INSERT INTO tble_user (name, lastname, gmail, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, txtName.getText());
@@ -762,7 +740,6 @@ if(result == javax.swing.JOptionPane.OK_OPTION){
             pst.close();
             connection.close();
 
-            // Refresh table
             accountsUser();
         }
 
