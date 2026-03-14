@@ -14,6 +14,9 @@ import main.Session;
  *
  * @author PC
  */
+import java.security.MessageDigest;
+
+
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -23,6 +26,26 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
 
+public static String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes("UTF-8"));
+
+        StringBuilder hex = new StringBuilder();
+
+        for (byte b : hash) {
+            String h = Integer.toHexString(0xff & b);
+            if (h.length() == 1) hex.append('0');
+            hex.append(h);
+        }
+
+        return hex.toString();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -152,54 +175,60 @@ public class Login extends javax.swing.JFrame {
     String gmailInput = user.getText().trim();
     String passwordInput = password.getText().trim();
 
-    // Validation first
     if (gmailInput.isEmpty() || passwordInput.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please enter both gmail and password!");
         return;
     }
 
     try {
+
+        // HASH the password entered by the user
+        String hashedPassword = register.hashPassword(passwordInput);
+
         java.sql.Connection con = config.connectDB();
-        // Use consistent column names - adjust based on your actual database schema
+
         String sql = "SELECT register_id, gmail, status, acstatus FROM tble_user WHERE gmail = ? AND password = ? AND acstatus = ?";
         java.sql.PreparedStatement pst = con.prepareStatement(sql);
+
         pst.setString(1, gmailInput);
-        pst.setString(2, passwordInput);
+        pst.setString(2, hashedPassword); // use hashed password
         pst.setString(3, "Active");
 
         java.sql.ResultSet rs = pst.executeQuery();
 
         if (rs.next()) {
+
             int userID = rs.getInt("register_id");
             String status = rs.getString("status");
 
-            // Set session data
             Session.login();
             config.loggedInAID = userID;
 
             JOptionPane.showMessageDialog(this, "LOGIN SUCCESS!");
 
-            // Role-based redirection
             if (status.equalsIgnoreCase("admin")) {
                 new dashboard.Admin().setVisible(true);
             } else {
                 new main.orderss().setVisible(true);
             }
 
-            this.dispose(); // Close login window
+            this.dispose();
 
         } else {
-            JOptionPane.showMessageDialog(this, "Your account is not active yet. Please wait for Admin approval");
+
+            JOptionPane.showMessageDialog(this, "Invalid gmail or password, or account not yet approved.");
+
         }
 
-        // Clean up resources
         rs.close();
         pst.close();
         con.close();
 
     } catch (Exception e) {
+
         JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
-        e.printStackTrace(); // For debugging
+        e.printStackTrace();
+
     }
 
       

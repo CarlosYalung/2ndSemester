@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -100,6 +101,26 @@ public class AdminProduct extends javax.swing.JFrame {
         
     }
     
+public static String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes("UTF-8"));
+
+        StringBuilder hex = new StringBuilder();
+
+        for (byte b : hash) {
+            String h = Integer.toHexString(0xff & b);
+            if (h.length() == 1) hex.append('0');
+            hex.append(h);
+        }
+
+        return hex.toString();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
     
     
     
@@ -405,55 +426,62 @@ public class AdminProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_ProfileMouseClicked
 
     private void SecurityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SecurityMouseClicked
-         javax.swing.JPasswordField passField = new javax.swing.JPasswordField();
-    javax.swing.JPasswordField confirmField = new javax.swing.JPasswordField();
+    javax.swing.JPasswordField passField = new javax.swing.JPasswordField();
+javax.swing.JPasswordField confirmField = new javax.swing.JPasswordField();
 
-    javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0,1,5,5));
-    panel.add(new javax.swing.JLabel("Change your password:"));
-    panel.add(new javax.swing.JLabel("New Password:"));
-    panel.add(passField);
-    panel.add(new javax.swing.JLabel("Confirm Password:"));
-    panel.add(confirmField);
+javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0,1,5,5));
+panel.add(new javax.swing.JLabel("Change your password:"));
+panel.add(new javax.swing.JLabel("New Password:"));
+panel.add(passField);
+panel.add(new javax.swing.JLabel("Confirm Password:"));
+panel.add(confirmField);
 
-    int result = javax.swing.JOptionPane.showConfirmDialog(
-            null,
-            panel,
-            "Security Settings",
-            javax.swing.JOptionPane.OK_CANCEL_OPTION,
-            javax.swing.JOptionPane.PLAIN_MESSAGE
-    );
+int result = javax.swing.JOptionPane.showConfirmDialog(
+        null,
+        panel,
+        "Security Settings",
+        javax.swing.JOptionPane.OK_CANCEL_OPTION,
+        javax.swing.JOptionPane.PLAIN_MESSAGE
+);
 
-    if(result == javax.swing.JOptionPane.OK_OPTION){
-        String password = new String(passField.getPassword());
-        String confirm = new String(confirmField.getPassword());
+if(result == javax.swing.JOptionPane.OK_OPTION){
 
-        if(password.isEmpty() || confirm.isEmpty()){
-            javax.swing.JOptionPane.showMessageDialog(this,"Please fill all fields!");
-            return;
-        }
+    String password = new String(passField.getPassword());
+    String confirm = new String(confirmField.getPassword());
 
-        if(!password.equals(confirm)){
-            javax.swing.JOptionPane.showMessageDialog(this,"Passwords do not match!");
-            return;
-        }
-
-        try{
-            java.sql.Connection con = config.connectDB();
-            String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-
-            pst.setString(1, password);
-            pst.setInt(2, config.loggedInAID);
-
-            pst.executeUpdate();
-            javax.swing.JOptionPane.showMessageDialog(this,"Password updated successfully!");
-
-            pst.close();
-            con.close();
-        }catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(this,e);
-        }
+    if(password.isEmpty() || confirm.isEmpty()){
+        javax.swing.JOptionPane.showMessageDialog(this,"Please fill all fields!");
+        return;
     }
+
+    if(!password.equals(confirm)){
+        javax.swing.JOptionPane.showMessageDialog(this,"Passwords do not match!");
+        return;
+    }
+
+    try{
+
+        // HASH THE PASSWORD
+        String hashedPassword = register.hashPassword(password);
+
+        java.sql.Connection con = config.connectDB();
+        String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, hashedPassword); // save hashed password
+        pst.setInt(2, config.loggedInAID);
+
+        pst.executeUpdate();
+
+        javax.swing.JOptionPane.showMessageDialog(this,"Password updated successfully!");
+
+        pst.close();
+        con.close();
+
+    }catch(Exception e){
+        javax.swing.JOptionPane.showMessageDialog(this,e);
+    }
+}
     }//GEN-LAST:event_SecurityMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -598,7 +626,11 @@ public class AdminProduct extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        // TODO add your handling code here:
+         Session.logout();
+        javax.swing.JOptionPane.showMessageDialog(null, "Logged out successfully.");
+        LandingPage landing = new LandingPage();
+        landing.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jLabel13MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked

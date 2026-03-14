@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,6 +56,27 @@ public class AdminUsers extends javax.swing.JFrame {
         accountsUser();
         
     }
+       
+       public static String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes("UTF-8"));
+
+        StringBuilder hex = new StringBuilder();
+
+        for (byte b : hash) {
+            String h = Integer.toHexString(0xff & b);
+            if (h.length() == 1) hex.append('0');
+            hex.append(h);
+        }
+
+        return hex.toString();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
       public void searchData() {
     config con = new config();
     String searchStr = jTextField1.getText().trim();
@@ -466,55 +488,62 @@ public class AdminUsers extends javax.swing.JFrame {
     }//GEN-LAST:event_ProfileMouseClicked
 
     private void SecurityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SecurityMouseClicked
-      javax.swing.JPasswordField passField = new javax.swing.JPasswordField();
-    javax.swing.JPasswordField confirmField = new javax.swing.JPasswordField();
+     javax.swing.JPasswordField passField = new javax.swing.JPasswordField();
+javax.swing.JPasswordField confirmField = new javax.swing.JPasswordField();
 
-    javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0,1,5,5));
-    panel.add(new javax.swing.JLabel("Change your password:"));
-    panel.add(new javax.swing.JLabel("New Password:"));
-    panel.add(passField);
-    panel.add(new javax.swing.JLabel("Confirm Password:"));
-    panel.add(confirmField);
+javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(0,1,5,5));
+panel.add(new javax.swing.JLabel("Change your password:"));
+panel.add(new javax.swing.JLabel("New Password:"));
+panel.add(passField);
+panel.add(new javax.swing.JLabel("Confirm Password:"));
+panel.add(confirmField);
 
-    int result = javax.swing.JOptionPane.showConfirmDialog(
-            null,
-            panel,
-            "Security Settings",
-            javax.swing.JOptionPane.OK_CANCEL_OPTION,
-            javax.swing.JOptionPane.PLAIN_MESSAGE
-    );
+int result = javax.swing.JOptionPane.showConfirmDialog(
+        null,
+        panel,
+        "Security Settings",
+        javax.swing.JOptionPane.OK_CANCEL_OPTION,
+        javax.swing.JOptionPane.PLAIN_MESSAGE
+);
 
-    if(result == javax.swing.JOptionPane.OK_OPTION){
-        String password = new String(passField.getPassword());
-        String confirm = new String(confirmField.getPassword());
+if(result == javax.swing.JOptionPane.OK_OPTION){
 
-        if(password.isEmpty() || confirm.isEmpty()){
-            javax.swing.JOptionPane.showMessageDialog(this,"Please fill all fields!");
-            return;
-        }
+    String password = new String(passField.getPassword());
+    String confirm = new String(confirmField.getPassword());
 
-        if(!password.equals(confirm)){
-            javax.swing.JOptionPane.showMessageDialog(this,"Passwords do not match!");
-            return;
-        }
-
-        try{
-            java.sql.Connection con = config.connectDB();
-            String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
-            java.sql.PreparedStatement pst = con.prepareStatement(sql);
-
-            pst.setString(1, password);
-            pst.setInt(2, config.loggedInAID);
-
-            pst.executeUpdate();
-            javax.swing.JOptionPane.showMessageDialog(this,"Password updated successfully!");
-
-            pst.close();
-            con.close();
-        }catch(Exception e){
-            javax.swing.JOptionPane.showMessageDialog(this,e);
-        }
+    if(password.isEmpty() || confirm.isEmpty()){
+        javax.swing.JOptionPane.showMessageDialog(this,"Please fill all fields!");
+        return;
     }
+
+    if(!password.equals(confirm)){
+        javax.swing.JOptionPane.showMessageDialog(this,"Passwords do not match!");
+        return;
+    }
+
+    try{
+
+        // HASH THE PASSWORD
+        String hashedPassword = register.hashPassword(password);
+
+        java.sql.Connection con = config.connectDB();
+        String sql = "UPDATE tble_user SET password=? WHERE register_id=?";
+        java.sql.PreparedStatement pst = con.prepareStatement(sql);
+
+        pst.setString(1, hashedPassword); // save hashed password
+        pst.setInt(2, config.loggedInAID);
+
+        pst.executeUpdate();
+
+        javax.swing.JOptionPane.showMessageDialog(this,"Password updated successfully!");
+
+        pst.close();
+        con.close();
+
+    }catch(Exception e){
+        javax.swing.JOptionPane.showMessageDialog(this,e);
+    }
+}
     }//GEN-LAST:event_SecurityMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
@@ -585,8 +614,7 @@ public class AdminUsers extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-     int selectedRow = tableuser.getSelectedRow();
-
+      int selectedRow = tableuser.getSelectedRow();
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Select user to update.");
         return;
@@ -598,87 +626,72 @@ public class AdminUsers extends javax.swing.JFrame {
         JTextField txtName = new JTextField(tableuser.getValueAt(selectedRow, 1).toString());
         JTextField txtLastname = new JTextField(tableuser.getValueAt(selectedRow, 2).toString());
         JTextField txtgmail = new JTextField(tableuser.getValueAt(selectedRow, 3).toString());
-        JTextField txtPassword = new JTextField(tableuser.getValueAt(selectedRow, 4).toString());
+        JTextField txtPassword = new JTextField(); // blank for new password
         JTextField txtStatus = new JTextField(tableuser.getValueAt(selectedRow, 5).toString());
         JTextField txtAcstatus = new JTextField(tableuser.getValueAt(selectedRow, 6).toString());
 
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+        panel.add(new JLabel("First Name:")); panel.add(txtName);
+        panel.add(new JLabel("Last Name:")); panel.add(txtLastname);
+        panel.add(new JLabel("Gmail:")); panel.add(txtgmail);
+        panel.add(new JLabel("New Password:")); panel.add(txtPassword);
+        panel.add(new JLabel("Status:")); panel.add(txtStatus);
+        panel.add(new JLabel("Account Status:")); panel.add(txtAcstatus);
 
-        panel.add(new JLabel("First Name:"));
-        panel.add(txtName);
-
-        panel.add(new JLabel("Last Name:"));
-        panel.add(txtLastname);
-
-        panel.add(new JLabel("Gmail:"));
-        panel.add(txtgmail);
-
-        panel.add(new JLabel("Password:"));
-        panel.add(txtPassword);
-
-        panel.add(new JLabel("Status:"));
-        panel.add(txtStatus);
-
-        panel.add(new JLabel("Account Status:"));
-        panel.add(txtAcstatus);
-
-        int result = JOptionPane.showConfirmDialog(
-                this,
-                panel,
+        int result = JOptionPane.showConfirmDialog(this, panel,
                 "Update User: " + tableuser.getValueAt(selectedRow, 1),
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE
-        );
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-
+            // Check for duplicate Gmail
             config con = new config();
-            java.sql.Connection connection = con.connectDB();
+            Connection connection = con.connectDB();
 
-            // CHECK IF GMAIL EXISTS BUT NOT THIS USER
             String checkSql = "SELECT * FROM tble_user WHERE gmail=? AND register_id != ?";
-            java.sql.PreparedStatement checkPst = connection.prepareStatement(checkSql);
+            PreparedStatement checkPst = connection.prepareStatement(checkSql);
             checkPst.setString(1, txtgmail.getText());
             checkPst.setInt(2, id);
-
-            java.sql.ResultSet rs = checkPst.executeQuery();
-
+            ResultSet rs = checkPst.executeQuery();
             if (rs.next()) {
                 JOptionPane.showMessageDialog(this, "Gmail already used by another account!");
                 return;
             }
 
-            // UPDATE USER
-            String sql = "UPDATE tble_user SET name=?, lastname=?, gmail=?, password=?, status=?, acstatus=? WHERE register_id=?";
-            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            // Hash password only if user entered something
+            String passwordToSave = tableuser.getValueAt(selectedRow, 4).toString(); // current password
+            if (!txtPassword.getText().isEmpty()) {
+                passwordToSave = register.hashPassword(txtPassword.getText());
+            }
 
+            // Update user
+            String sql = "UPDATE tble_user SET name=?, lastname=?, gmail=?, password=?, status=?, acstatus=? WHERE register_id=?";
+            PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, txtName.getText());
             pst.setString(2, txtLastname.getText());
             pst.setString(3, txtgmail.getText());
-            pst.setString(4, txtPassword.getText());
+            pst.setString(4, passwordToSave);
             pst.setString(5, txtStatus.getText());
             pst.setString(6, txtAcstatus.getText());
             pst.setInt(7, id);
 
             pst.executeUpdate();
-
-            JOptionPane.showMessageDialog(this, "User Updated!");
+            JOptionPane.showMessageDialog(this, "User Updated Successfully!");
 
             pst.close();
             connection.close();
 
-            displayUser();
+            // Refresh table
+            accountsUser();
         }
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error updating: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Error updating user: " + e.getMessage());
     }
    
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-try {
-
+      try {
         JTextField txtName = new JTextField();
         JTextField txtLastname = new JTextField();
         JTextField txtgmail = new JTextField();
@@ -691,67 +704,54 @@ try {
         JComboBox<String> cbAcstatus = new JComboBox<>(acOptions);
 
         JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+        panel.add(new JLabel("First Name:")); panel.add(txtName);
+        panel.add(new JLabel("Last Name:")); panel.add(txtLastname);
+        panel.add(new JLabel("Gmail:")); panel.add(txtgmail);
+        panel.add(new JLabel("Password:")); panel.add(txtPassword);
+        panel.add(new JLabel("Role:")); panel.add(cbStatus);
+        panel.add(new JLabel("Account Status:")); panel.add(cbAcstatus);
 
-        panel.add(new JLabel("First Name:"));
-        panel.add(txtName);
-
-        panel.add(new JLabel("Last Name:"));
-        panel.add(txtLastname);
-
-        panel.add(new JLabel("Gmail:"));
-        panel.add(txtgmail);
-
-        panel.add(new JLabel("Password:"));
-        panel.add(txtPassword);
-
-        panel.add(new JLabel("Role:"));
-        panel.add(cbStatus);
-
-        panel.add(new JLabel("Account Status:"));
-        panel.add(cbAcstatus);
-
-        int result = JOptionPane.showConfirmDialog(
-                this,
-                panel,
-                "Add New User",
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE
-        );
+        int result = JOptionPane.showConfirmDialog(this, panel, "Add New User",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (result == JOptionPane.OK_OPTION) {
-
-            if (txtName.getText().isEmpty() ||
-                txtLastname.getText().isEmpty() ||
-                txtgmail.getText().isEmpty() ||
-                txtPassword.getText().isEmpty()) {
-
+            // Validate required fields
+            if (txtName.getText().isEmpty() || txtLastname.getText().isEmpty() ||
+                txtgmail.getText().isEmpty() || txtPassword.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "All fields are required!");
                 return;
             }
 
+            // Optional: Validate Gmail format
+            if (!txtgmail.getText().matches("^[\\w-.]+@[\\w-]+\\.[a-z]{2,}$")) {
+                JOptionPane.showMessageDialog(this, "Invalid Gmail format!");
+                return;
+            }
+
             config con = new config();
-            java.sql.Connection connection = con.connectDB();
+            Connection connection = con.connectDB();
 
-            // CHECK IF GMAIL ALREADY EXISTS
+            // Check for duplicate Gmail
             String checkSql = "SELECT * FROM tble_user WHERE gmail = ?";
-            java.sql.PreparedStatement checkPst = connection.prepareStatement(checkSql);
+            PreparedStatement checkPst = connection.prepareStatement(checkSql);
             checkPst.setString(1, txtgmail.getText());
+            ResultSet rs = checkPst.executeQuery();
 
-            java.sql.ResultSet rs = checkPst.executeQuery();
-
-            if(rs.next()){
+            if (rs.next()) {
                 JOptionPane.showMessageDialog(this, "Gmail already exists! Please use another Gmail.");
                 return;
             }
 
-            // INSERT NEW USER
-            String sql = "INSERT INTO tble_user (name, lastname, gmail, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
-            java.sql.PreparedStatement pst = connection.prepareStatement(sql);
+            // Hash password
+            String hashedPassword = register.hashPassword(txtPassword.getText());
 
+            // Insert new user
+            String sql = "INSERT INTO tble_user (name, lastname, gmail, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1, txtName.getText());
             pst.setString(2, txtLastname.getText());
             pst.setString(3, txtgmail.getText());
-            pst.setString(4, txtPassword.getText());
+            pst.setString(4, hashedPassword);
             pst.setString(5, cbStatus.getSelectedItem().toString());
             pst.setString(6, cbAcstatus.getSelectedItem().toString());
 
@@ -762,7 +762,8 @@ try {
             pst.close();
             connection.close();
 
-            displayUser();
+            // Refresh table
+            accountsUser();
         }
 
     } catch (Exception e) {

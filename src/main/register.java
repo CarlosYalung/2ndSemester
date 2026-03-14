@@ -8,6 +8,7 @@ package main;
 import Config.config;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+import java.security.MessageDigest;
 
 /**
  *
@@ -21,7 +22,26 @@ public class register extends javax.swing.JFrame {
     public register() {
         initComponents();
     }
+public static String hashPassword(String password) {
+    try {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] hash = md.digest(password.getBytes("UTF-8"));
 
+        StringBuilder hex = new StringBuilder();
+
+        for (byte b : hash) {
+            String h = Integer.toHexString(0xff & b);
+            if (h.length() == 1) hex.append('0');
+            hex.append(h);
+        }
+
+        return hex.toString();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -169,31 +189,42 @@ public class register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-         if(name.getText().isEmpty() || last.getText().isEmpty() || user.getText().isEmpty() || pass.getText().isEmpty()){
-                JOptionPane.showMessageDialog(null, "PLEASE FILL OUT EVERYTHING!");
-         } else {  
-             config con = new config();
+     
+    if(name.getText().isEmpty() || last.getText().isEmpty() || user.getText().isEmpty() || pass.getPassword().length == 0){
+        JOptionPane.showMessageDialog(null, "PLEASE FILL OUT EVERYTHING!");
+        return;
+    }
 
-            
-             String sql = "SELECT * FROM tble_user WHERE gmail = ?";
-             String unVal = con.unValidation(sql, last.getText()); 
+    config con = new config();
 
-             if (unVal != null) {
-                 JOptionPane.showMessageDialog(null, "GMAIL IS ALREADY USED, TRY ANOTHER!");
-                 return;
-             }
+    String sql = "SELECT * FROM tble_user WHERE gmail = ?";
+    String unVal = con.unValidation(sql, user.getText());
 
-             
-             sql = "INSERT INTO Tble_user (name, lastname, gmail, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
-             con.addRecord(sql, user.getText(), name.getText(), last.getText(), pass.getText(), "User", "Inactive");                          
+    if (unVal != null) {
+        JOptionPane.showMessageDialog(null, "GMAIL IS ALREADY USED!");
+        return;
+    }
 
-             JOptionPane.showMessageDialog(null, "Record Added");
-              Login lc = new Login();
-              lc.setVisible(true);
-              this.dispose();
-      
-         }
-         
+    String password = new String(pass.getPassword());
+    String hashedPassword = hashPassword(password);
+
+    sql = "INSERT INTO tble_user (name, lastname, gmail, password, status, acstatus) VALUES (?, ?, ?, ?, ?, ?)";
+
+    con.addRecord(sql,
+            name.getText(),
+            last.getText(),
+            user.getText(),
+            hashedPassword,
+            "User",
+            "Inactive"
+    );
+
+    JOptionPane.showMessageDialog(null, "Account Registered!");
+
+    Login lc = new Login();
+    lc.setVisible(true);
+    this.dispose();
+
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jPanel4MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseEntered
