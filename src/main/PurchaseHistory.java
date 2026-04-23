@@ -136,6 +136,97 @@ public static String hashPassword(String password) {
         
     }
     
+    private void showReceiptFromHistory(int rowIndex) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        
+        String product = model.getValueAt(rowIndex, 0).toString();
+        int quantity = Integer.parseInt(model.getValueAt(rowIndex, 1).toString());
+        String totalPrice = model.getValueAt(rowIndex, 2).toString();
+        String shipping = model.getValueAt(rowIndex, 3).toString();
+        String payment = model.getValueAt(rowIndex, 4).toString();
+        String date = model.getValueAt(rowIndex, 5).toString();
+        String idGenerate = model.getValueAt(rowIndex, 6).toString();
+        String status = model.getValueAt(rowIndex, 7).toString();
+        
+        javax.swing.JDialog receiptDialog = new javax.swing.JDialog(this, "Transaction Receipt", true);
+        receiptDialog.setSize(450, 550);
+        receiptDialog.setLocationRelativeTo(this);
+        receiptDialog.setResizable(false);
+        
+        javax.swing.JPanel mainPanel = new javax.swing.JPanel();
+        mainPanel.setBackground(new java.awt.Color(240, 240, 240));
+        mainPanel.setLayout(new java.awt.BorderLayout(10, 10));
+        mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        
+        javax.swing.JTextArea receiptArea = new javax.swing.JTextArea();
+        receiptArea.setFont(new java.awt.Font("Consolas", java.awt.Font.PLAIN, 13));
+        receiptArea.setBackground(new java.awt.Color(255, 255, 255));
+        receiptArea.setForeground(new java.awt.Color(50, 50, 50));
+        receiptArea.setEditable(false);
+        receiptArea.setLineWrap(false);
+        receiptArea.setWrapStyleWord(false);
+        receiptArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        
+        StringBuilder fullReceipt = new StringBuilder();
+        fullReceipt.append("************** DripHorizon ******************\n");
+        fullReceipt.append("Date: ").append(date).append("\n");
+        fullReceipt.append("*********************************************\n\n");
+        
+        fullReceipt.append(String.format("Item: %-20s| Qty: %-3d\n", product, quantity));
+        
+        fullReceipt.append("\n--------------------------------\n");
+        fullReceipt.append(" Shipping: ").append(shipping).append("\n");
+        fullReceipt.append(" Payment: ").append(payment).append("\n");
+        fullReceipt.append(" ").append(totalPrice).append("\n");
+        fullReceipt.append("--------------------------------\n\n");
+        
+        fullReceipt.append("Transaction ID: ").append(idGenerate).append("\n");
+        fullReceipt.append("Customer: ").append(nm.getText()).append("\n");
+        fullReceipt.append("Status: ").append(status).append("\n");
+        fullReceipt.append("\nThank you for your purchase!\n");
+        fullReceipt.append("Please come again soon.\n");
+        
+        receiptArea.setText(fullReceipt.toString());
+        
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(receiptArea);
+        scrollPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        
+        javax.swing.JPanel buttonPanel = new javax.swing.JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
+        
+        javax.swing.JButton printBtn = new javax.swing.JButton("Print");
+        printBtn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        printBtn.setBackground(new java.awt.Color(58, 175, 253));
+        printBtn.setForeground(java.awt.Color.WHITE);
+        printBtn.setFocusPainted(false);
+        printBtn.setPreferredSize(new java.awt.Dimension(80, 35));
+        printBtn.addActionListener(e -> {
+            try {
+                receiptArea.print();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Print error: " + ex.getMessage());
+            }
+        });
+        
+        javax.swing.JButton closeBtn = new javax.swing.JButton("Close");
+        closeBtn.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+        closeBtn.setBackground(new java.awt.Color(150, 160, 170));
+        closeBtn.setForeground(java.awt.Color.WHITE);
+        closeBtn.setFocusPainted(false);
+        closeBtn.setPreferredSize(new java.awt.Dimension(80, 35));
+        closeBtn.addActionListener(e -> receiptDialog.dispose());
+        
+        buttonPanel.add(printBtn);
+        buttonPanel.add(closeBtn);
+        
+        mainPanel.add(scrollPane, java.awt.BorderLayout.CENTER);
+        mainPanel.add(buttonPanel, java.awt.BorderLayout.SOUTH);
+        
+        receiptDialog.add(mainPanel);
+        receiptDialog.setVisible(true);
+    }
+    
     
     
     
@@ -377,6 +468,17 @@ public static String hashPassword(String password) {
 
         pack();
         setLocationRelativeTo(null);
+        
+        // Add mouse listener to table for receipt display
+        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = jTable2.rowAtPoint(evt.getPoint());
+                if (row >= 0) {
+                    showReceiptFromHistory(row);
+                }
+            }
+        });
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
